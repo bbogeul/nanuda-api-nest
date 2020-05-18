@@ -1,7 +1,8 @@
 import { resolve } from 'path';
 import { writeFileSync } from 'fs';
 import * as mysql from 'mysql';
-import * as lodash from 'lodash';
+// might need this later...
+// import * as lodash from 'lodash';
 
 let connection;
 function generateCodeManagementFile(callback) {
@@ -18,7 +19,7 @@ function generateCodeManagementFile(callback) {
       let output = '';
       let codes = '';
 
-      codes = items.reduce((acc, cur, i) => {
+      codes = items.reduce((acc, cur) => {
         if (!acc[cur.CATEGORY_1]) {
           acc[cur.CATEGORY_1] = [];
         }

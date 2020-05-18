@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Debug from 'debug';
 import { basename } from 'path';
 import { Injectable } from '@nestjs/common';

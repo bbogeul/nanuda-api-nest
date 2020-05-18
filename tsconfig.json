@@ -8,14 +8,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es2017",
-    "lib": ["es2018", "esnext.asynciterable"],
+    "lib": [
+      "es2018",
+      "esnext.asynciterable"
+    ],
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-
     "allowJs": false,
-
     "locale": "ko",
     "pretty": true
   },
@@ -23,5 +24,9 @@
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   },
-  "exclude": ["node_modules", "dist", "documentation"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "documentation"
+  ]
 }
