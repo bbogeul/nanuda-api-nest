@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { BaseEntity } from '../../core'
-import { deleteYN } from '../../common'
+import { YN } from '../../common'
 
 @Entity({ name: 'CODE_MANAGEMENT' })
 export class CodeManagement extends BaseEntity<CodeManagement> {
@@ -8,6 +8,7 @@ export class CodeManagement extends BaseEntity<CodeManagement> {
         super(partial)
     }
 
+    // capitalization ONLY FOR CODE MANAGEMENT!!
     @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
     NO: number;
 
@@ -29,7 +30,7 @@ export class CodeManagement extends BaseEntity<CodeManagement> {
     @Column({ type: 'int' })
     ORDER_BY: number;
 
-    @Column({ type: 'varchar', length: 1, nullable: false, default: deleteYN.NO })
+    @Column({ type: 'varchar', length: 1, nullable: false, default: YN.NO })
     DEL_YN: string;
 
 }

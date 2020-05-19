@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 import { BaseDto } from '../../../core';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CodeManagement } from '../code-management.entity';
-import { Default, deleteYN } from '../../../common';
+import { Default, YN } from '../../../common';
 import { IsOptional, IsEnum, IsNotEmpty } from 'class-validator';
 
 export class AdminCodeManagementCreateDto extends BaseDto<AdminCodeManagementCreateDto> implements Partial<CodeManagement>{
@@ -31,9 +31,9 @@ export class AdminCodeManagementCreateDto extends BaseDto<AdminCodeManagementCre
     @Expose()
     CATEGORY_2: string;
 
-    @ApiProperty({ enum: deleteYN, enumName: 'deleteYN' })
-    @Default(deleteYN.NO)
-    @IsEnum(deleteYN)
+    @ApiProperty({ enum: YN, enumName: 'YN' })
+    @Default(YN.NO)
+    @IsEnum(YN)
     @Expose()
-    DEL_YN: deleteYN;
+    DEL_YN: YN;
 }

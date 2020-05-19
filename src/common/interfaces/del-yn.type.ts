@@ -1,4 +1,4 @@
-export enum deleteYN {
+export enum YN {
     'YES' = 'Y',
     'NO' = 'N'
 }

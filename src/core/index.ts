@@ -6,3 +6,4 @@ export * from './base.service';
 export * from './base.entity';
 export * from './base.controller';
 export * from './base.dto';
+export * from '../modules/auth/base-user.entity';

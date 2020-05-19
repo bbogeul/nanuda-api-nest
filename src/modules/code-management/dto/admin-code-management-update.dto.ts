@@ -3,7 +3,7 @@ import { CodeManagement } from '../code-management.entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsNotEmpty, IsEnum } from 'class-validator';
 import { Expose } from 'class-transformer';
-import { deleteYN } from 'src/common';
+import { YN } from 'src/common';
 
 export class AdminCodeManagementUpdateDto extends BaseDto<AdminCodeManagementUpdateDto> implements Partial<CodeManagement> {
     constructor(partial?: any) {
@@ -46,10 +46,10 @@ export class AdminCodeManagementUpdateDto extends BaseDto<AdminCodeManagementUpd
     @Expose()
     ORDER_BY?: number
 
-    @ApiPropertyOptional({ enum: deleteYN })
+    @ApiPropertyOptional({ enum: YN })
     @IsOptional()
-    @IsEnum(deleteYN)
+    @IsEnum(YN)
     @IsNotEmpty()
     @Expose()
-    DEL_YN?: deleteYN;
+    DEL_YN?: YN;
 }
