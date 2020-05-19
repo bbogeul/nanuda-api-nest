@@ -1,0 +1,8 @@
+{
+    "auth": {
+        "notFound": "Admin does not exist."
+    },
+    "codeManagement": {
+        "duplicate": "Code already exists in DB"
+    }
+}
