@@ -1,6 +1,7 @@
-import { BaseUser } from '../../../core';
+import { NanudaUser } from 'src/modules/nanuda-user';
+import { Admin } from '../../../modules/admin';
 
 export class Auth {
-    token: string;
-    user: BaseUser;
+  token: string;
+  user: Admin | NanudaUser;
 }

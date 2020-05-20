@@ -1,32 +1,42 @@
-// import Debug from 'debug';
-// import { Injectable, UnauthorizedException, ForbiddenException, ExecutionContext, Inject } from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
-// import { ADMIN_USER } from '../../shared';
-// import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
-// import { basename } from 'path';
-// import { deleteYN } from '../../common';
+import Debug from 'debug';
+import {
+  Injectable,
+  UnauthorizedException,
+  ForbiddenException,
+  ExecutionContext,
+  Inject,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ADMIN_USER, NANUDA_USER } from '../../shared';
+import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
+import { basename } from 'path';
 
-// const debug = Debug(`app:${basename(__dirname)}: ${basename(__filename)}`);
+const debug = Debug(`app:${basename(__dirname)}: ${basename(__filename)}`);
 
-// @Injectable()
-// export class AuthRolesGuard extends AuthGuard('jwt') {
-//     readonly roles: ADMIN_USER[];
+@Injectable()
+export class AuthRolesGuard extends AuthGuard('jwt') {
+  readonly roles: (ADMIN_USER | NANUDA_USER)[];
 
-//     constructor(...roles: ADMIN_USER[]) {
-//         super();
-//         this.roles = roles;
-//     }
+  constructor(...roles: (ADMIN_USER | NANUDA_USER)[]) {
+    super();
+    this.roles = roles;
+  }
 
-//     handleRequest(err, user, info, context: ExecutionContextHost) {
-//         if (err || !user) {
-//             debug(info);
-//             throw err || new UnauthorizedException();
-//         }
-
-//         if (this.roles.length) {
-//             debug(this.roles);
-//             const hasRole = () => this.roles.some(role => );
-//             if(user.)
-//         }
-//     }
-// }
+  handleRequest(err, user, info, context: ExecutionContextHost) {
+    if (err || !user) {
+      debug(info);
+      throw err || new UnauthorizedException();
+    }
+    if (this.roles.length) {
+      const hasRoles = () =>
+        this.roles.some(role => user.authCode.includes(role));
+      if (!user || !hasRoles()) {
+        throw new ForbiddenException({
+          message: '죄송합니다. 권한이 없습니다.',
+          error: 403,
+        });
+      }
+    }
+    return user;
+  }
+}

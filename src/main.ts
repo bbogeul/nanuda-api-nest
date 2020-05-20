@@ -30,6 +30,9 @@ let app: NestExpressApplication;
 declare const module: any;
 
 async function bootstrap() {
+  // generate code management code
+  // first fix duplicate codes in DB first
+  // await generate.generate;
   if (env === 'development') {
     console.log('Running in development mode. 개발 모드로 진행중');
   }
@@ -79,10 +82,6 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('swagger', app, document);
   }
-
-  // generate code management code
-  // first fix duplicate codes in DB first
-  // await generate.generate;
 
   await app.listen(4000);
 

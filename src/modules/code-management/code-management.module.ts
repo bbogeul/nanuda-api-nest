@@ -5,9 +5,8 @@ import { CodeManagementService } from './code-management.service';
 import { AdminCodeManagementController } from './admin-code-management.controller';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CodeManagement])],
-    controllers: [AdminCodeManagementController],
-    providers: [CodeManagementService]
+  imports: [TypeOrmModule.forFeature([CodeManagement])],
+  controllers: [AdminCodeManagementController],
+  providers: [CodeManagementService],
 })
-
-export class CodeManagementModule { }
+export class CodeManagementModule {}

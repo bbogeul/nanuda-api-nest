@@ -7,18 +7,22 @@ import { TypeOrmConfigService, HttpConfigService } from './config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggingInterceptor } from './core';
-import { CodeManagementModule } from './modules';
+import { CodeManagementModule, AuthModule } from './modules';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     HttpModule.registerAsync({ useClass: HttpConfigService }),
-    CodeManagementModule
+    CodeManagementModule,
+    AdminModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService,
+  providers: [
+    AppService,
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
     // {provide: APP_FILTER, useClass: HttpExceptionFilter}
   ],
 })
-export class AppModule { }
+export class AppModule {}

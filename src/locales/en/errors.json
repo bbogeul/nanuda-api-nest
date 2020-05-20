@@ -1,8 +1,10 @@
 {
-    "auth": {
-        "notFound": "Admin does not exist."
-    },
-    "codeManagement": {
-        "duplicate": "Code already exists in DB"
-    }
+  "auth": {
+    "notFound": "Admin does not exist.",
+    "passwordNotEqual": "Passwords do not match.",
+    "notAvailable": "Cannot login. You are not an admin."
+  },
+  "codeManagement": {
+    "duplicate": "Code already exists in DB."
+  }
 }

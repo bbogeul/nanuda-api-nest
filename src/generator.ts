@@ -37,10 +37,11 @@ function generateCodeManagementFile(callback) {
         output += `\n`;
       });
 
-      const filePath = resolve(__dirname, './shared/code-management.type.ts');
+      const filePath = resolve('src/shared/code-management.type.ts');
+      console.log(filePath);
       writeFileSync(filePath, output, { encoding: 'utf8' });
       console.log(`[generator] generated file: ${filePath}`);
-
+      console.log(filePath);
       if (callback) callback();
     },
   );
@@ -60,7 +61,7 @@ const generate = (async () => {
 
   generateCodeManagementFile(() => {
     if (connection) connection.end();
-    process.exit();
+    // process.exit();
   });
 })();
 
