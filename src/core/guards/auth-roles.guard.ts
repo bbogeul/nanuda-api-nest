@@ -25,7 +25,11 @@ export class AuthRolesGuard extends AuthGuard('jwt') {
   handleRequest(err, user, info, context: ExecutionContextHost) {
     if (err || !user) {
       debug(info);
-      throw err || new UnauthorizedException();
+      throw err ||
+        new UnauthorizedException({
+          message: '권한이 없습니다.',
+          error: 401,
+        });
     }
     if (this.roles.length) {
       const hasRoles = () =>
