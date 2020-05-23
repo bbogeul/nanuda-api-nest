@@ -50,6 +50,16 @@ export class AuthService extends BaseService {
   }
 
   /**
+   * Login for Nanuda
+   */
+  async nanudaUserLogin(): Promise<Auth> {
+    // find or create divided
+    // personally do not like how they are divided due to lack of error warnings
+    const user = new Auth();
+    return user;
+  }
+
+  /**
    * sign to jwt payload
    * @param user
    * @param extend

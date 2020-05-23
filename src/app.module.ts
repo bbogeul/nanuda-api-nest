@@ -7,7 +7,7 @@ import { TypeOrmConfigService, HttpConfigService } from './config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggingInterceptor } from './core';
-import { CodeManagementModule, AuthModule } from './modules';
+import { CodeManagementModule, AuthModule, NanudaUserModule } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
@@ -17,6 +17,7 @@ import { AdminModule } from './modules/admin/admin.module';
     CodeManagementModule,
     AdminModule,
     AuthModule,
+    NanudaUserModule,
   ],
   controllers: [AppController],
   providers: [

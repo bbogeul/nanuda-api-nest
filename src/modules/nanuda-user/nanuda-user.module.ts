@@ -4,5 +4,8 @@ import { NanudaUser } from './nanuda-user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([NanudaUser])],
+  controllers: [],
+  providers: [],
+  exports: []
 })
 export class NanudaUserModule {}
