@@ -42,3 +42,5 @@ export class Admin extends BaseUser {
     return UserType.ADMIN;
   }
 }
+
+// TODO: change authCode into json_array

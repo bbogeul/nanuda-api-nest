@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserSigninPayload, UserType, Auth } from './types';
 import { NanudaUser } from '../nanuda-user';
 import { AdminLoginDto } from './dto';
-import { YN } from 'src/common';
+import { YN } from '../../common';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -50,7 +50,7 @@ export class AuthService extends BaseService {
   }
 
   /**
-   * Login for Nanuda
+   * Login for Nanuda  user
    */
   async nanudaUserLogin(): Promise<Auth> {
     // find or create divided

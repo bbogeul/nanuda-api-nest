@@ -33,10 +33,12 @@ export class NanudaUser extends BaseUser {
   })
   marketYn?: string;
 
+  // What is this column for???
   @Column({
     type: 'int',
     nullable: true,
     name: 'REMAIN_VISIT_COUNT',
+    default: 1,
   })
   remainVisitCount?: number;
 

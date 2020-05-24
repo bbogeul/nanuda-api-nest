@@ -83,7 +83,8 @@ async function bootstrap() {
     SwaggerModule.setup('swagger', app, document);
   }
 
-  await app.listen(4000);
+  // 8185 or 4000
+  await app.listen(process.env.NODE_ENV === 'development' ? 4000 : 8185);
 
   const url = await app.getUrl();
   Logger.log(`${url}`, 'NestApplication');

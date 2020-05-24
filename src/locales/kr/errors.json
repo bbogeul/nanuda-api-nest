@@ -7,5 +7,8 @@
   },
   "codeManagement": {
     "duplicate": "이미 존재하는 코드입니다."
+  },
+  "nanudaUser": {
+    "exists": "이미 존재하는 사용자입니다."
   }
 }
