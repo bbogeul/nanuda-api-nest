@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { BaseService, NanudaException } from 'src/core';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm';
+import { Repository, EntityManager } from 'typeorm';
 import { NanudaUser } from './nanuda-user.entity';
 import { NanudaUserCreateDto } from './dto';
+import { NanudaUserUpdateHistory } from '../nanuda-user-update-history/nanuda-user-update-history.entity';
 
 @Injectable()
 export class NanudaUserService extends BaseService {
   constructor(
+    @InjectEntityManager() private readonly entityManager: EntityManager,
     @InjectRepository(NanudaUser)
     private readonly nanudaUserRepo: Repository<NanudaUser>,
   ) {
@@ -23,7 +25,19 @@ export class NanudaUserService extends BaseService {
     if (check) {
       throw new NanudaException('nanudaUser.exists');
     }
-    return await this.nanudaUserRepo.save(new NanudaUser(nanudaUserCreateDto));
+    const nanudaUser = await this.entityManager.transaction(
+      async entityManager => {
+        let nanudaUser = new NanudaUser(nanudaUserCreateDto);
+        nanudaUser = await entityManager.save(nanudaUser);
+        let nanudaUserUpdateHistory = new NanudaUserUpdateHistory(nanudaUser);
+        nanudaUserUpdateHistory.nanudaUserNo = nanudaUser.no;
+        nanudaUserUpdateHistory = await entityManager.save(
+          nanudaUserUpdateHistory,
+        );
+        return nanudaUser;
+      },
+    );
+    return nanudaUser;
   }
 
   /**

@@ -18,6 +18,7 @@ import { CONST_ADMIN_USER, ADMIN_USER } from 'src/shared';
 import { PaginatedRequest, PaginatedResponse, UserInfo } from 'src/common';
 import { Admin } from './admin.entity';
 import { AdminService } from './admin.service';
+import { AdminUpdateStatusDto } from './dto/admin-update-status.dto';
 
 @ApiTags('ADMIN')
 @ApiBearerAuth()
@@ -90,13 +91,23 @@ export class AdminController extends BaseController {
   }
 
   /**
+   * hard delete admin for super admin
+   * @param adminId
+   */
+  @ApiOperation({})
+  @UseGuards(new AuthRolesGuard(ADMIN_USER.SUPER))
+  @Delete('/admin/hard-delete/:id([0-9]+)')
+  async hardDelete(@Param('id', ParseIntPipe) adminId: number) {
+    return { isDeleted: await this.adminService.hardDelete(adminId) };
+  }
+  /**
    * admin self update
    * @param admin
    * @param id
    * @param adminUpdateDto
    */
   @ApiOperation({})
-  @Patch('/admin/:id([0-9]+)')
+  @Patch('/admin/self-update/:id([0-9]+)')
   @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
   async selfUpdate(
     @UserInfo() admin: Admin,
@@ -104,5 +115,20 @@ export class AdminController extends BaseController {
     @Body() adminUpdateDto: AdminUpdateDto,
   ): Promise<Admin> {
     return await this.adminService.update(admin, id, adminUpdateDto);
+  }
+
+  /**
+   * update status for admin
+   */
+  @ApiOperation({
+    description: '권한 변경 엔드포인트',
+  })
+  @Patch('/admin/:id([0-9]+)')
+  @UseGuards(new AuthRolesGuard(ADMIN_USER.SUPER))
+  async updateStatus(
+    @Body() adminUpdateStatusDto: AdminUpdateStatusDto,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<Admin> {
+    return await this.adminService.updateStatus(id, adminUpdateStatusDto);
   }
 }

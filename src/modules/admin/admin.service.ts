@@ -92,6 +92,17 @@ export class AdminService extends BaseService {
   }
 
   /**
+   * hard delete
+   * @param adminId
+   */
+  async hardDelete(adminId: number): Promise<boolean> {
+    const check = await this.__check_if_admin_exists(adminId);
+    if (!check) throw new NanudaException('admin.notFound');
+    // cons await this.adminRepo.delete(adminId)
+    return true;
+  }
+
+  /**
    * Admin update own information
    * @param user
    * @param adminId
@@ -127,5 +138,17 @@ export class AdminService extends BaseService {
     admin = admin.set(adminUpdateStatusDto);
     admin = await this.adminRepo.save(admin);
     return admin;
+  }
+
+  /**
+   * check if an admin exists before function
+   * @param adminId
+   */
+  private async __check_if_admin_exists(adminId: number): Promise<boolean> {
+    const checkAdmin = await this.adminRepo.findOne(adminId);
+    if (!checkAdmin) {
+      return false;
+    }
+    return true;
   }
 }
