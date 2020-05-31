@@ -9,6 +9,7 @@
     "duplicate": "Code already exists in DB."
   },
   "nanudaUser": {
-    "exists": "User already exists"
+    "exists": "User already exists",
+    "notExists": "User does not exist."
   }
 }

@@ -1,9 +1,12 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Patch } from '@nestjs/common';
 import { BaseController } from '../../core';
-import { NanudaUserCreateDto } from './dto';
+import { NanudaUserCreateDto, NanudaUserUpdateDto } from './dto';
 import { ApiTags } from '@nestjs/swagger';
 import { NanudaUserService } from './nanuda-user.service';
 import { NanudaUser } from './nanuda-user.entity';
+import { UserInfo } from 'src/common';
+import { AuthRolesGuard } from 'src/core/guards';
+import { NANUDA_USER } from 'src/shared';
 
 @Controller()
 @ApiTags('NANUDA USER')
@@ -21,5 +24,22 @@ export class NanudaUserController extends BaseController {
     @Body() nanudaUserCreateDto: NanudaUserCreateDto,
   ): Promise<NanudaUser> {
     return await this.nanudaUserService.create(nanudaUserCreateDto);
+  }
+
+  /**
+   * update own information
+   * @param nanudaUser
+   * @param nanudaUserUpdateDto
+   */
+  @UseGuards(new AuthRolesGuard(NANUDA_USER.NORMAL_USER))
+  @Patch('/nanuda-user/:id([0-9]+)')
+  async update(
+    @UserInfo() nanudaUser: NanudaUser,
+    @Body() nanudaUserUpdateDto: NanudaUserUpdateDto,
+  ) {
+    return await this.nanudaUserService.update(
+      nanudaUser.no,
+      nanudaUserUpdateDto,
+    );
   }
 }

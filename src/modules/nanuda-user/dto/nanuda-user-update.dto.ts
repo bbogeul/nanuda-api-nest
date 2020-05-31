@@ -1,6 +1,6 @@
 import { BaseDto } from '../../../core';
 import { NanudaUser } from '../nanuda-user.entity';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsNumberString,
   IsNotEmpty,
@@ -10,7 +10,7 @@ import {
 import { Expose } from 'class-transformer';
 import { YN, Default } from 'src/common';
 
-export class NanudaUserCreateDto extends BaseDto<NanudaUserCreateDto>
+export class NanudaUserUpdateDto extends BaseDto<NanudaUserUpdateDto>
   implements Partial<NanudaUser> {
   constructor(partial?: any) {
     super(partial);
@@ -30,19 +30,22 @@ export class NanudaUserCreateDto extends BaseDto<NanudaUserCreateDto>
   @Expose()
   name: string;
 
-  @ApiProperty({ enum: YN })
+  @ApiPropertyOptional({ enum: YN })
+  @IsOptional()
   @IsEnum(YN)
   @Default(YN.NO)
   @Expose()
   infoYn: YN;
 
-  @ApiProperty({ enum: YN })
+  @ApiPropertyOptional({ enum: YN })
+  @IsOptional()
   @IsEnum(YN)
   @Default(YN.NO)
   @Expose()
   serviceYn: YN;
 
-  @ApiProperty({ enum: YN })
+  @ApiPropertyOptional({ enum: YN })
+  @IsOptional()
   @IsEnum(YN)
   @Default(YN.NO)
   @Expose()

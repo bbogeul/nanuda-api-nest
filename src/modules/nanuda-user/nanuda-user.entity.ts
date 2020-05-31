@@ -42,6 +42,13 @@ export class NanudaUser extends BaseUser {
   })
   remainVisitCount?: number;
 
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+    name: 'LAST_LOGIN_AT',
+  })
+  lastLoginAt?: Date;
+
   //   no database column
   get userType(): UserType {
     return UserType.NANUDA_USER;
