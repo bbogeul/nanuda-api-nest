@@ -10,7 +10,8 @@ import {
 import { Expose } from 'class-transformer';
 import { YN, Default } from 'src/common';
 
-export class NanudaUserUpdateDto extends BaseDto<NanudaUserUpdateDto> {
+export class NanudaUserUpdateDto extends BaseDto<NanudaUserUpdateDto>
+  implements Partial<NanudaUser> {
   constructor(partial?: any) {
     super(partial);
   }
