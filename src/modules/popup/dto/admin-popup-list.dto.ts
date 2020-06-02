@@ -30,13 +30,13 @@ export class AdminPopupListDto extends BaseDto<AdminPopupListDto>
   @Default(POPUP.IMAGE)
   popupType?: POPUP;
 
-  @ApiProperty({ enum: YN })
+  @ApiPropertyOptional({ enum: YN })
   @IsEnum(YN)
   @Default(YN.NO)
   @Expose()
   delYn: YN;
 
-  @ApiProperty({ enum: YN })
+  @ApiPropertyOptional({ enum: YN })
   @IsEnum(YN)
   @Default(YN.NO)
   @Expose()
