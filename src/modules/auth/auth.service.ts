@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { UserSigninPayload, UserType, Auth } from './types';
 import { NanudaUser } from '../nanuda-user';
-import { AdminLoginDto } from './dto';
+import { AdminLoginDto, NanudaUserLoginDto } from './dto';
 import { YN } from '../../common';
 
 @Injectable()
@@ -27,7 +27,10 @@ export class AuthService extends BaseService {
    * @param adminLoginDto
    */
   async adminLogin(adminLoginDto: AdminLoginDto): Promise<Auth> {
-    const admin = await this.adminRepo.findOne({ phone: adminLoginDto.phone });
+    const admin = await this.adminRepo.findOne({
+      phone: adminLoginDto.phone,
+      delYN: YN.NO,
+    });
     if (!admin) {
       throw new NanudaException('auth.notFound');
     }
@@ -52,10 +55,20 @@ export class AuthService extends BaseService {
   /**
    * Login for Nanuda  user
    */
-  async nanudaUserLogin(): Promise<Auth> {
+  async nanudaUserLogin(nanudaUserLoginDto: NanudaUserLoginDto): Promise<Auth> {
     // find or create divided
+    const nanudaUser = await this.nanudaUserRepo.findOne({
+      phone: nanudaUserLoginDto.phone,
+      delYN: YN.NO,
+    });
+    if (!nanudaUser) {
+      throw new NanudaException('nanudaUser.notFound');
+    }
+    const token = await this.sign(nanudaUser);
     // personally do not like how they are divided due to lack of error warnings
     const user = new Auth();
+    user.user = nanudaUser;
+    user.token = token;
     return user;
   }
 

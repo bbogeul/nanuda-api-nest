@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseGuards, Patch } from '@nestjs/common';
 import { BaseController } from '../../core';
 import { NanudaUserCreateDto, NanudaUserUpdateDto } from './dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { NanudaUserService } from './nanuda-user.service';
 import { NanudaUser } from './nanuda-user.entity';
 import { UserInfo } from 'src/common';
@@ -10,6 +10,7 @@ import { NANUDA_USER } from 'src/shared';
 
 @Controller()
 @ApiTags('NANUDA USER')
+@ApiBearerAuth()
 export class NanudaUserController extends BaseController {
   constructor(private readonly nanudaUserService: NanudaUserService) {
     super();
@@ -32,7 +33,7 @@ export class NanudaUserController extends BaseController {
    * @param nanudaUserUpdateDto
    */
   @UseGuards(new AuthRolesGuard(NANUDA_USER.NORMAL_USER))
-  @Patch('/nanuda-user/:id([0-9]+)')
+  @Patch('/nanuda-user')
   async update(
     @UserInfo() nanudaUser: NanudaUser,
     @Body() nanudaUserUpdateDto: NanudaUserUpdateDto,

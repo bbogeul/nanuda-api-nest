@@ -9,6 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtConfigService } from 'src/config';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { NanudaUser } from '../nanuda-user';
+import { UserAuthController } from './user-auth.controller';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { NanudaUser } from '../nanuda-user';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({ useClass: JwtConfigService }),
   ],
-  controllers: [AdminAuthController],
+  controllers: [AdminAuthController, UserAuthController],
   providers: [PasswordService, AuthService, JwtStrategy],
   exports: [],
 })

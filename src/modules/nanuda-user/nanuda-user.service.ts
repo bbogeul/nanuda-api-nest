@@ -68,9 +68,7 @@ export class NanudaUserService extends BaseService {
         nanudaUser = await entityManager.save(
           nanudaUser.set(nanudaUserUpdateDto),
         );
-        let nanudaUpdateHistory = new NanudaUserUpdateHistory(nanudaUser);
-        nanudaUpdateHistory.nanudaUserNo = nanudaUser.no;
-        nanudaUpdateHistory = await entityManager.save(nanudaUpdateHistory);
+        await entityManager.save(this.__nanudaUser_history(nanudaUser));
         return nanudaUser;
       },
     );
@@ -150,6 +148,26 @@ export class NanudaUserService extends BaseService {
   }
 
   /**
+   * hard delete user
+   * also for checking out
+   * add withdraw table for user
+   * @param nanudaUserId
+   */
+  async hardDelete(nanudaUserId: number): Promise<boolean> {
+    const checkUser = this.__check_user_through_id(nanudaUserId);
+    if (!checkUser) {
+      throw new NanudaException('nanudaUser.notExists');
+    }
+    try {
+      await this.nanudaUserRepo.delete({ no: nanudaUserId });
+    } catch (error) {
+      // send slack notification
+      console.log(error);
+    }
+    return true;
+  }
+
+  /**
    * check if user exists by phone
    * @param phone
    */
@@ -175,5 +193,15 @@ export class NanudaUserService extends BaseService {
     } else {
       return false;
     }
+  }
+
+  /**
+   * 나누다 사용자 업데이트 객체 생성
+   * @param nanudaUser
+   */
+  private __nanudaUser_history(nanudaUser: NanudaUser) {
+    const nanudaUserHistory = new NanudaUserUpdateHistory(nanudaUser);
+    nanudaUserHistory.nanudaUserNo = nanudaUser.no;
+    return nanudaUserHistory;
   }
 }

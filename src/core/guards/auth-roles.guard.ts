@@ -31,9 +31,14 @@ export class AuthRolesGuard extends AuthGuard('jwt') {
           error: 401,
         });
     }
+
     if (this.roles.length) {
-      const hasRoles = () =>
-        this.roles.some(role => user.authCode.includes(role));
+      console.log(this.roles);
+      const newArray = [];
+      const arrayedRoles = user.authCode.split(', ');
+      arrayedRoles.map(levels => newArray.push(levels));
+      const hasRoles = () => this.roles.some(role => newArray.includes(role));
+
       if (!user || !hasRoles()) {
         throw new ForbiddenException({
           message: '죄송합니다. 권한이 없습니다.',
