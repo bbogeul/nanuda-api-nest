@@ -87,6 +87,42 @@ function generateFoodCategoryType(callback) {
   );
 }
 
+function generateSpaceType(callback) {
+  connection.query(
+    // tslint:disable-next-line: quotemark
+    "SELECT `CODE`, `NO` FROM `SPACE_TYPE` WHERE DEL_YN = 'N' ORDER BY `CODE` ASC, `createdAt` ASC",
+    (err, items) => {
+      if (err) throw err;
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[GENERATED SPACE TYPE] + ${items.length} rows gathered.`);
+      }
+      let output = '';
+      let codes = '';
+
+      codes = items.reduce((acc, cur) => {
+        if (!acc[cur.CODE]) {
+          acc[cur.CODE] = [];
+        }
+        acc[cur.CODE].push(cur.NO);
+        return acc;
+      }, {});
+      output += `export enum SPACE_TYPE {\n`;
+      Object.keys(codes).forEach(CODE => {
+        codes[CODE].forEach(NO => {
+          output += ` '${CODE}' = '${NO}', \n`;
+        });
+      });
+      output += `}\n`;
+      const filePath = resolve('src/shared/space-type.type.ts');
+      console.log(filePath);
+      writeFileSync(filePath, output, { encoding: 'utf8' });
+      console.log(`[generator] generated space type file: ${filePath}`);
+      console.log(filePath);
+      if (callback) callback();
+    },
+  );
+}
+
 // generate CODE_MANAGEMENT
 const generate = (async () => {
   // todo: create bash profile for deployment
@@ -98,14 +134,18 @@ const generate = (async () => {
     password: 'Sksnek8183#3',
     database: 'nanuda_platform_test',
   });
-  generateFoodCategoryType(() => {
-    // if (connection) connection.end();
+  generateSpaceType(() => {
     console.log('Generating');
-  });
-  generateCodeManagementFile(() => {
     if (connection) connection.end();
-    // process.exit();
   });
+  // generateFoodCategoryType(() => {
+  //   // if (connection) connection.end();
+  //   console.log('Generating');
+  // });
+  // generateCodeManagementFile(() => {
+  //   if (connection) connection.end();
+  //   // process.exit();
+  // });
 })();
 
 export { generate };

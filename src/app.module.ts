@@ -12,6 +12,7 @@ import {
   AuthModule,
   NanudaUserModule,
   PopupModule,
+  BrandModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 
@@ -19,11 +20,12 @@ import { AdminModule } from './modules/admin/admin.module';
   imports: [
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     HttpModule.registerAsync({ useClass: HttpConfigService }),
-    CodeManagementModule,
-    AdminModule,
     AuthModule,
+    AdminModule,
+    BrandModule,
     NanudaUserModule,
     PopupModule,
+    CodeManagementModule,
   ],
   controllers: [AppController],
   providers: [

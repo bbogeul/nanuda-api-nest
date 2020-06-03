@@ -6,6 +6,7 @@ import { Admin } from './admin.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdminUpdateStatusDto } from './dto/admin-update-status.dto';
+import { userInfo } from 'os';
 
 @Injectable()
 export class AdminService extends BaseService {

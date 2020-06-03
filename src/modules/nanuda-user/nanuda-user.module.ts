@@ -8,7 +8,7 @@ import { AdminNanudaUserController } from './admin-nanuda-user.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([NanudaUser, NanudaUserUpdateHistory])],
-  controllers: [NanudaUserController, AdminNanudaUserController],
+  controllers: [AdminNanudaUserController, NanudaUserController],
   providers: [NanudaUserService],
   exports: [],
 })

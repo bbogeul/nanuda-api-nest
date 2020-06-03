@@ -42,7 +42,7 @@ export class PopupService extends BaseService {
     popupId: number,
     adminPopupDeleteDto: AdminPopupDeleteDto,
   ): Promise<Popup> {
-    const popup = await this.popupRepo.findOne({
+    let popup = await this.popupRepo.findOne({
       where: {
         no: popupId,
         delYn: YN.NO,
@@ -52,7 +52,7 @@ export class PopupService extends BaseService {
       throw new NanudaException('popup.notFound');
     }
     // update delYn
-    await this.popupRepo.update(popupId, adminPopupDeleteDto);
+    popup = await this.popupRepo.save(popup.set(adminPopupDeleteDto));
     return popup;
   }
 

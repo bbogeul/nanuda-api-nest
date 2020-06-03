@@ -9,7 +9,7 @@ import { Admin } from '../admin';
 import { Repository } from 'typeorm';
 
 @Controller()
-@ApiTags('ADMIN Auth')
+@ApiTags('AUTH ADMIN')
 export class AdminAuthController extends BaseController {
   constructor(
     private readonly authService: AuthService,

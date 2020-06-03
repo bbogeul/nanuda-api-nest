@@ -6,7 +6,7 @@ import { Auth } from '.';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller()
-@ApiTags('NANUDA Auth')
+@ApiTags('AUTH NANUDA USER')
 export class UserAuthController extends BaseController {
   constructor(private readonly authService: AuthService) {
     super();

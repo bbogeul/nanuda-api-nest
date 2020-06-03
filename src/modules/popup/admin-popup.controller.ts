@@ -100,7 +100,7 @@ export class AdminPopupController extends BaseController {
    * @param popupId
    */
   @UseGuards(new AuthRolesGuard(ADMIN_USER.SUPER))
-  @Delete('/admin/popup/:id([0-9]+)')
+  @Delete('/admin/popup//hard-delete/:id([0-9]+)')
   async hardDelete(@Param('id', ParseIntPipe) popupId: number) {
     return await this.popupService.hardDelete(popupId);
   }
