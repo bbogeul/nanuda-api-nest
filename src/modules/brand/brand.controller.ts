@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Param, ParseIntPipe } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BaseController } from '../../core';
 import { BrandService } from './brand.service';
@@ -26,5 +26,14 @@ export class BrandController extends BaseController {
     @Query() pagination: PaginatedRequest,
   ): Promise<PaginatedResponse<Brand>> {
     return await this.brandService.findForHomePage(brandListDto, pagination);
+  }
+
+  /**
+   * get brand detail for homepage
+   * @param brandId
+   */
+  @Get('/brand/:id([0-9]+)')
+  async findOne(@Param('id', ParseIntPipe) brandId: number): Promise<Brand> {
+    return await this.brandService.findOne(brandId);
   }
 }

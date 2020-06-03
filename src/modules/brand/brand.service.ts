@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Brand } from './brand.entity';
 import { Repository } from 'typeorm';
 import { AdminBrandListDto, AdminBrandCreateDto, BrandListDto } from './dto';
-import { PaginatedRequest, PaginatedResponse } from 'src/common';
+import { PaginatedRequest, PaginatedResponse, YN } from 'src/common';
 
 @Injectable()
 export class BrandService extends BaseService {
@@ -92,20 +92,15 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * find one brand
+   * find one brand for nanuda users
    * @param brandId
    */
   async findOne(brandId: number): Promise<Brand> {
-    await this.__check_if_brand_exists(brandId);
-    return await this.brandRepo.findOne(brandId);
+    return await this.__check_if_brand_exists_for_users(brandId);
   }
 
-  private async __check_if_brand_exists(brandId: number) {
-    const brand = await this.brandRepo.findOne(brandId);
-    if (!brand) {
-      throw new NanudaException('brand.notFound');
-    }
-    return true;
+  async findOneForAdmin(brandId: number): Promise<Brand> {
+    return await this.__check_if_brand_exists_for_admins(brandId);
   }
 
   /**
@@ -130,5 +125,32 @@ export class BrandService extends BaseService {
       .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
+  }
+
+  private async __check_if_brand_exists_for_users(brandId: number) {
+    const brand = await this.brandRepo.findOne({
+      where: {
+        no: brandId,
+        delYn: YN.NO,
+        showYn: YN.YES,
+      },
+    });
+    if (!brand) {
+      throw new NanudaException('brand.notFound');
+    }
+    return brand;
+  }
+
+  private async __check_if_brand_exists_for_admins(brandId: number) {
+    const brand = await this.brandRepo.findOne({
+      where: {
+        no: brandId,
+        delYn: YN.NO,
+      },
+    });
+    if (!brand) {
+      throw new NanudaException('brand.notFound');
+    }
+    return brand;
   }
 }

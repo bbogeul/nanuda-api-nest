@@ -9,6 +9,7 @@ import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
 import { SPACE_TYPE } from 'src/shared';
 import { Menu } from '../menu/menu.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'BRAND' })
 export class Brand extends BaseEntity<Brand> {
@@ -46,10 +47,12 @@ export class Brand extends BaseEntity<Brand> {
   })
   spaceTypeNo: SPACE_TYPE;
 
+  @Exclude()
   @Column('int', {
     nullable: false,
     name: 'ADMIN_NO',
     unsigned: true,
+    select: false,
   })
   adminNo: number;
 

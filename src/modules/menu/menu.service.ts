@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from 'src/core';
 import { AdminMenuListDto } from './dto';
-import { PaginatedRequest, PaginatedResponse } from 'src/common';
+import { PaginatedRequest, PaginatedResponse, YN } from 'src/common';
 
 @Injectable()
 export class MenuService extends BaseService {
@@ -25,9 +25,26 @@ export class MenuService extends BaseService {
   ): Promise<PaginatedResponse<Menu>> {
     const qb = this.menuRepo
       .createQueryBuilder('Menu')
+      .CustomInnerJoinAndSelect(['brand'])
       .WhereAndOrder(adminMenuListDto)
       .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
+  }
+
+  /**
+   * find one for admin with query builder
+   * @param mapId
+   */
+  async findOneForAdmin(mapId: number): Promise<Menu> {
+    const qb = this.menuRepo
+      .createQueryBuilder('menu')
+      .select()
+      .CustomInnerJoinAndSelect(['brand'])
+      .where('menu.no = :no', { no: mapId })
+      .andWhere('menu.delYn = :delYn', { delYn: YN.NO });
+    const menu = await qb.getOne();
+
+    return menu;
   }
 }
