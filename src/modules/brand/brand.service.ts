@@ -119,6 +119,7 @@ export class BrandService extends BaseService {
   ): Promise<PaginatedResponse<Brand>> {
     const qb = await this.brandRepo
       .createQueryBuilder('Brand')
+      .leftJoinAndSelect('Brand.menus', 'menus')
       .AndWhereEqual(
         'Brand',
         'showYn',
