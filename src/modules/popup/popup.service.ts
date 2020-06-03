@@ -5,6 +5,7 @@ import {
   AdminPopupListDto,
   PopupListDto,
   AdminPopupDeleteDto,
+  AdminPopupListWithDeleteDto,
 } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Popup } from './popup.entity';
@@ -141,11 +142,12 @@ export class PopupService extends BaseService {
    * @param pagination
    */
   async findWithSoftDelete(
+    adminPopupListWithDelete: AdminPopupListWithDeleteDto,
     pagination?: PaginatedRequest,
   ): Promise<PaginatedResponse<Popup>> {
     const qb = await this.popupRepo
       .createQueryBuilder('Popup')
-      .orderBy('Popup.no', ORDER_BY_VALUE.DESC)
+      .WhereAndOrder(adminPopupListWithDelete)
       .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };

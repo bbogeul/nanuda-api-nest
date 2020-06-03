@@ -52,5 +52,5 @@ export class AdminNanudaUserListDto extends BaseDto<AdminNanudaUserListDto>
   @Default(ORDER_BY_VALUE.DESC)
   @IsEnum(ORDER_BY_VALUE)
   @Expose()
-  orderByNO: ORDER_BY_VALUE;
+  orderByNo: ORDER_BY_VALUE;
 }

@@ -6,7 +6,8 @@ import { Popup } from '../popup.entity';
 import { LINK_TYPE, POPUP } from 'src/shared';
 import { Default, YN, ORDER_BY_VALUE } from 'src/common';
 
-export class AdminPopupListDto extends BaseDto<AdminPopupListDto>
+export class AdminPopupListWithDeleteDto
+  extends BaseDto<AdminPopupListWithDeleteDto>
   implements Partial<Popup> {
   constructor(partial?: any) {
     super(partial);
@@ -29,18 +30,6 @@ export class AdminPopupListDto extends BaseDto<AdminPopupListDto>
   @Expose()
   @Default(POPUP.IMAGE)
   popupType?: POPUP;
-
-  @ApiPropertyOptional({ enum: YN })
-  @IsEnum(YN)
-  @Default(YN.NO)
-  @Expose()
-  delYn: YN;
-
-  @ApiPropertyOptional({ enum: YN })
-  @IsEnum(YN)
-  @Default(YN.YES)
-  @Expose()
-  showYn: YN;
 
   @ApiPropertyOptional({ enum: ORDER_BY_VALUE })
   @IsOptional()

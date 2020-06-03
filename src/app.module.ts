@@ -13,6 +13,7 @@ import {
   NanudaUserModule,
   PopupModule,
   BrandModule,
+  MenuModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 
@@ -23,6 +24,7 @@ import { AdminModule } from './modules/admin/admin.module';
     AuthModule,
     AdminModule,
     BrandModule,
+    MenuModule,
     NanudaUserModule,
     PopupModule,
     CodeManagementModule,

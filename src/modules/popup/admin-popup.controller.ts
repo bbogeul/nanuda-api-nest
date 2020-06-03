@@ -17,6 +17,7 @@ import {
   AdminPopupListDto,
   AdminPopupCreateDto,
   AdminPopupDeleteDto,
+  AdminPopupListWithDeleteDto,
 } from './dto';
 import { PaginatedRequest, PaginatedResponse } from 'src/common';
 import { Popup } from './popup.entity';
@@ -52,9 +53,13 @@ export class AdminPopupController extends BaseController {
   @UseGuards(new AuthRolesGuard(ADMIN_USER.SUPER))
   @Get('/admin/with-delete')
   async findWithSoftDelete(
+    @Query() adminPopupListDtoWithDelete: AdminPopupListWithDeleteDto,
     @Query() pagination: PaginatedRequest,
   ): Promise<PaginatedResponse<Popup>> {
-    return await this.popupService.findWithSoftDelete(pagination);
+    return await this.popupService.findWithSoftDelete(
+      adminPopupListDtoWithDelete,
+      pagination,
+    );
   }
 
   /**

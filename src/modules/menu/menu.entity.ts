@@ -2,32 +2,39 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToMany,
+  ManyToOne,
   JoinColumn,
+  JoinTable,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
-import { SPACE_TYPE } from 'src/shared';
-import { Menu } from '../menu/menu.entity';
+import { Brand } from '../brand/brand.entity';
 
-@Entity({ name: 'BRAND' })
-export class Brand extends BaseEntity<Brand> {
+@Entity({ name: 'MENU' })
+export class Menu extends BaseEntity<Menu> {
   @PrimaryGeneratedColumn({
-    name: 'NO',
+    type: 'int',
     unsigned: true,
+    name: 'NO',
   })
   no: number;
 
-  @Column('varchar', {
-    length: 50,
+  @Column('int', {
     nullable: false,
+    name: 'BRAND_NO',
+  })
+  brandNo: number;
+
+  @Column('varchar', {
+    nullable: false,
+    length: 50,
     name: 'NAME_KR',
   })
   nameKr: string;
 
   @Column('varchar', {
-    length: 50,
     nullable: true,
+    length: 50,
     name: 'NAME_ENG',
   })
   nameEng: string;
@@ -39,27 +46,12 @@ export class Brand extends BaseEntity<Brand> {
   })
   desc?: string;
 
-  @Column('int', {
-    nullable: false,
-    default: 0,
-    name: 'SPACE_TYPE_NO',
+  @Column('char', {
+    length: 1,
+    default: YN.NO,
+    name: 'MAIN_YN',
   })
-  spaceTypeNo: SPACE_TYPE;
-
-  @Column('int', {
-    nullable: false,
-    name: 'ADMIN_NO',
-    unsigned: true,
-  })
-  adminNo: number;
-
-  @Column('int', {
-    nullable: false,
-    name: 'CATEGORY_NO',
-    unsigned: true,
-    default: 0,
-  })
-  categoryNo: number;
+  mainYn?: YN;
 
   @Column('char', {
     default: YN.YES,
@@ -77,10 +69,10 @@ export class Brand extends BaseEntity<Brand> {
   })
   delYn: YN;
 
-  @JoinColumn({ name: 'BRAND_NO' })
-  @OneToMany(
-    type => Menu,
-    menu => menu.brand,
+  @ManyToOne(
+    type => Brand,
+    brand => brand.menus,
   )
-  menus?: Menu[];
+  @JoinColumn({ name: 'BRAND_NO' })
+  brand?: Brand;
 }

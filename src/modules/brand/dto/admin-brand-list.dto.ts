@@ -1,12 +1,14 @@
 import { BrandListDto } from './brand-list.dto';
 import { Brand } from '../brand.entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { YN, Default } from 'src/common';
+import { YN, Default, ORDER_BY_VALUE } from 'src/common';
 import { IsOptional, IsEnum, IsNumber, MaxLength } from 'class-validator';
 import { Expose } from 'class-transformer';
 import { SPACE_TYPE } from 'src/shared';
+import { BaseDto } from 'src/core';
 
-export class AdminBrandListDto extends BrandListDto implements Partial<Brand> {
+export class AdminBrandListDto extends BaseDto<AdminBrandListDto>
+  implements Partial<Brand> {
   constructor(partial?: any) {
     super(partial);
   }
@@ -17,6 +19,12 @@ export class AdminBrandListDto extends BrandListDto implements Partial<Brand> {
   @Expose()
   @Default(YN.NO)
   delYn?: YN;
+
+  @ApiPropertyOptional({ enum: YN })
+  @IsOptional()
+  @IsEnum(YN)
+  @Expose()
+  showYn?: YN;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -46,4 +54,11 @@ export class AdminBrandListDto extends BrandListDto implements Partial<Brand> {
   @IsEnum(SPACE_TYPE)
   @Expose()
   spaceTypeNo?: SPACE_TYPE;
+
+  @ApiPropertyOptional({ enum: ORDER_BY_VALUE })
+  @IsOptional()
+  @Expose()
+  @Default(ORDER_BY_VALUE.DESC)
+  @IsEnum(ORDER_BY_VALUE)
+  orderByNo: ORDER_BY_VALUE;
 }

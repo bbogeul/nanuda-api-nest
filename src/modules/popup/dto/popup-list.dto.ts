@@ -27,7 +27,7 @@ export class PopupListDto extends BaseDto<PopupListDto>
   @IsEnum(ORDER_BY_VALUE)
   @Default(ORDER_BY_VALUE.DESC)
   @Expose()
-  orderByNO: ORDER_BY_VALUE;
+  orderByNo: ORDER_BY_VALUE;
 
   @ApiPropertyOptional({ type: String, format: 'date-time' })
   @Expose()

@@ -27,5 +27,5 @@ export class AdminCodeManagementListDto
   @IsOptional()
   @IsEnum(ORDER_BY_VALUE)
   @Expose()
-  orderByNO?: ORDER_BY_VALUE;
+  orderByNo?: ORDER_BY_VALUE;
 }

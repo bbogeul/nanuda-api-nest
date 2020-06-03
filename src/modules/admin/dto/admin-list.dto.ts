@@ -33,5 +33,5 @@ export class AdminListDto extends BaseDto<AdminListDto>
   @Default(ORDER_BY_VALUE.DESC)
   @Expose()
   @IsEnum(ORDER_BY_VALUE)
-  orderByNO: ORDER_BY_VALUE;
+  orderByNo: ORDER_BY_VALUE;
 }

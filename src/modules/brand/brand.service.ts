@@ -38,53 +38,55 @@ export class BrandService extends BaseService {
     adminBrandListDto: AdminBrandListDto,
     pagination?: PaginatedRequest,
   ): Promise<PaginatedResponse<Brand>> {
-    const qb = await this.brandRepo
-      .createQueryBuilder('Brand')
+    const qb = this.brandRepo
+      .createQueryBuilder('brand')
       .select()
+      .leftJoinAndSelect('brand.menus', 'menus')
       .AndWhereLike(
-        'Brand',
+        'brand',
         'nameKr',
         adminBrandListDto.nameKr,
         adminBrandListDto.exclude('nameKr'),
       )
       .AndWhereLike(
-        'Brand',
+        'brand',
         'nameEng',
         adminBrandListDto.nameEng,
         adminBrandListDto.exclude('nameEng'),
       )
       .AndWhereEqual(
-        'Brand',
+        'brand',
         'showYn',
         adminBrandListDto.showYn,
         adminBrandListDto.exclude('showYn'),
       )
       .AndWhereEqual(
-        'Brand',
+        'brand',
         'delYn',
         adminBrandListDto.delYn,
         adminBrandListDto.exclude('delYn'),
       )
       .AndWhereEqual(
-        'Brand',
+        'brand',
         'spaceTypeNo',
         adminBrandListDto.spaceTypeNo,
         adminBrandListDto.exclude('spaceTypeNo'),
       )
       .AndWhereEqual(
-        'Brand',
+        'brand',
         'categoryNo',
         adminBrandListDto.categoryNo,
         adminBrandListDto.exclude('categoryNo'),
       )
       .AndWhereEqual(
-        'Brand',
+        'brand',
         'adminNo',
         adminBrandListDto.adminNo,
         adminBrandListDto.exclude('adminNo'),
       )
       .WhereAndOrder(adminBrandListDto)
       .Paginate(pagination);
+
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
   }

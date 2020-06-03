@@ -14,5 +14,8 @@
   },
   "popup": {
     "notFound": "Popup does not exist."
+  },
+  "brand": {
+    "notFound": "Brand does not exist."
   }
 }

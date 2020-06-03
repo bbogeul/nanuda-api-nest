@@ -28,5 +28,5 @@ export class BrandListDto extends BaseDto<BrandListDto>
   @Expose()
   @Default(ORDER_BY_VALUE.DESC)
   @IsEnum(ORDER_BY_VALUE)
-  orderByNO: ORDER_BY_VALUE;
+  orderByNo: ORDER_BY_VALUE;
 }
