@@ -1,10 +1,20 @@
-import { BaseService } from 'src/core';
+import { BaseService, NanudaException } from 'src/core';
 import { Injectable } from '@nestjs/common';
-import { AdminPopupCreateDto, AdminPopupListDto } from './dto';
+import {
+  AdminPopupCreateDto,
+  AdminPopupListDto,
+  PopupListDto,
+  AdminPopupDeleteDto,
+} from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Popup } from './popup.entity';
 import { Repository } from 'typeorm';
-import { PaginatedResponse, PaginatedRequest } from 'src/common';
+import {
+  PaginatedResponse,
+  PaginatedRequest,
+  YN,
+  ORDER_BY_VALUE,
+} from 'src/common';
 
 @Injectable()
 export class PopupService extends BaseService {
@@ -21,6 +31,51 @@ export class PopupService extends BaseService {
   async create(adminPopupCreateDto: AdminPopupCreateDto): Promise<Popup> {
     const popup = await this.popupRepo.save(new Popup(adminPopupCreateDto));
     return popup;
+  }
+
+  /**
+   * soft delete popup
+   * @param popupId
+   * @param adminPopupDeleteDto
+   */
+  async softDelete(
+    popupId: number,
+    adminPopupDeleteDto: AdminPopupDeleteDto,
+  ): Promise<Popup> {
+    const popup = await this.popupRepo.findOne({
+      where: {
+        no: popupId,
+        delYn: YN.NO,
+      },
+    });
+    if (!popup) {
+      throw new NanudaException('popup.notFound');
+    }
+    // update delYn
+    await this.popupRepo.update(popupId, adminPopupDeleteDto);
+    return popup;
+  }
+
+  /**
+   * hard delete for admin
+   * @param popupId
+   */
+  async hardDelete(popupId: number): Promise<boolean> {
+    const popup = await this.popupRepo.findOne({
+      where: {
+        no: popupId,
+      },
+    });
+    if (!popup) {
+      throw new NanudaException('popup.notFound');
+    }
+    await this.popupRepo
+      .createQueryBuilder()
+      .delete()
+      .where('no = :no', { no: popupId })
+      .execute();
+
+    return true;
   }
 
   /**
@@ -59,15 +114,83 @@ export class PopupService extends BaseService {
         adminPopupListDto.showYn,
         adminPopupListDto.exclude('showYn'),
       )
-      .AndWhereLike(
-        'Popup',
-        'delYn',
-        adminPopupListDto.delYn,
-        adminPopupListDto.exclude('delYn'),
-      )
       .WhereAndOrder(adminPopupListDto)
       .Paginate(pagination);
 
+    const [items, totalCount] = await qb.getManyAndCount();
+    return { items, totalCount };
+  }
+
+  /**
+   * find one for admin
+   * @param popupId
+   */
+  async findOne(popupId: number): Promise<Popup> {
+    const popup = await this.popupRepo.findOne({
+      no: popupId,
+      delYn: YN.NO,
+    });
+    if (!popup) {
+      throw new NanudaException('popup.notFound');
+    }
+    return popup;
+  }
+
+  /**
+   * find all popups even with soft delete
+   * @param pagination
+   */
+  async findWithSoftDelete(
+    pagination?: PaginatedRequest,
+  ): Promise<PaginatedResponse<Popup>> {
+    const qb = await this.popupRepo
+      .createQueryBuilder('Popup')
+      .orderBy('Popup.no', ORDER_BY_VALUE.DESC)
+      .Paginate(pagination);
+    const [items, totalCount] = await qb.getManyAndCount();
+    return { items, totalCount };
+  }
+
+  /**
+   * find one with delete
+   * @param popupId
+   */
+  async findOneWithSoftDelete(popupId: number): Promise<Popup> {
+    const popup = await this.popupRepo.findOne(popupId);
+    if (!popup) {
+      throw new NanudaException('popup.notFound');
+    }
+    return popup;
+  }
+
+  /**
+   * find for homepage
+   * finds between started and ended
+   * @param popupListDto
+   * @param pagination
+   */
+  async findForHomepage(
+    popupListDto: PopupListDto,
+    pagination?: PaginatedRequest,
+  ): Promise<PaginatedResponse<Popup>> {
+    const qb = await this.popupRepo
+      .createQueryBuilder('Popup')
+      .select()
+      .AndWhereLike(
+        'Popup',
+        'delYn',
+        popupListDto.delYn,
+        popupListDto.exclude('delYn'),
+      )
+      .AndWhereLike(
+        'Popup',
+        'showYn',
+        popupListDto.showYn,
+        popupListDto.exclude('showYn'),
+      )
+      .AndWhereBetweenDate(popupListDto.currented)
+      .WhereAndOrder(popupListDto)
+      .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
   }

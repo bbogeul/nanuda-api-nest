@@ -1,5 +1,5 @@
 import { BaseDto } from 'src/core';
-import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsEnum } from 'class-validator';
 import { Expose } from 'class-transformer';
 import { Popup } from '../popup.entity';
@@ -38,7 +38,7 @@ export class AdminPopupListDto extends BaseDto<AdminPopupListDto>
 
   @ApiPropertyOptional({ enum: YN })
   @IsEnum(YN)
-  @Default(YN.NO)
+  @Default(YN.YES)
   @Expose()
   showYn: YN;
 

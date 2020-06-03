@@ -73,11 +73,11 @@ export class Popup extends BaseEntity<Popup> {
     name: 'START_DATE',
     nullable: true,
   })
-  startDate?: Date;
+  started?: Date;
 
   @Column('datetime', {
     name: 'END_DATE',
     nullable: true,
   })
-  endDate?: Date;
+  ended?: Date;
 }

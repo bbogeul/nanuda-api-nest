@@ -11,5 +11,8 @@
   "nanudaUser": {
     "exists": "User already exists",
     "notExists": "User does not exist."
+  },
+  "popup": {
+    "notFound": "Popup does not exist."
   }
 }

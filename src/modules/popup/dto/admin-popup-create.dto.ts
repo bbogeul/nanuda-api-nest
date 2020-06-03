@@ -56,4 +56,14 @@ export class AdminPopupCreateDto extends BaseDto<AdminPopupCreateDto>
   @Default(YN.NO)
   @Expose()
   showYn: YN;
+
+  @ApiPropertyOptional()
+  @Expose()
+  @IsOptional()
+  started: Date;
+
+  @ApiPropertyOptional()
+  @Expose()
+  @IsOptional()
+  ended: Date;
 }
