@@ -34,14 +34,14 @@ export class MenuService extends BaseService {
 
   /**
    * find one for admin with query
-   * @param mapId
+   * @param menuId
    */
-  async findOneForAdmin(mapId: number): Promise<Menu> {
+  async findOne(menuId: number): Promise<Menu> {
     const qb = this.menuRepo
       .createQueryBuilder('menu')
       .select()
       .CustomInnerJoinAndSelect(['brand'])
-      .where('menu.no = :no', { no: mapId })
+      .where('menu.no = :no', { no: menuId })
       .andWhere('menu.delYn = :delYn', { delYn: YN.NO });
     const menu = await qb.getOne();
 

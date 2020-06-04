@@ -1,15 +1,17 @@
-export enum CHINESE_FOOD {
- '중식' = '중식', 
+export enum FOOD_CATEGORY {
+ 'BAKERY_FOOD' = 'BAKERY_FOOD', 
+ 'CHICKEN_FOOD' = 'CHICKEN_FOOD', 
+ 'CHINESE_FOOD' = 'CHINESE_FOOD', 
+ 'COFFEE' = 'COFFEE', 
+ 'ETC' = 'ETC', 
+ 'FASTFOOD' = 'FASTFOOD', 
+ 'INDIAN_FOOD' = 'INDIAN_FOOD', 
+ 'JAPANESE_FOOD' = 'JAPANESE_FOOD', 
+ 'KOREAN_FOOD' = 'KOREAN_FOOD', 
+ 'MEAT_FOOD' = 'MEAT_FOOD', 
+ 'NOODLE_FOOD' = 'NOODLE_FOOD', 
+ 'SEAFOOD' = 'SEAFOOD', 
+ 'SNACK_FOOD' = 'SNACK_FOOD', 
+ 'SOUTH_EAST_ASIAN_FOOD' = 'SOUTH_EAST_ASIAN_FOOD', 
+ 'WESTERN_FOOD' = 'WESTERN_FOOD', 
 }
-export const CONST_CHINESE_FOOD  = Object.values(CHINESE_FOOD);
-
-export enum JAPANESE_FOOD {
- '일식' = '일식', 
-}
-export const CONST_JAPANESE_FOOD  = Object.values(JAPANESE_FOOD);
-
-export enum KOREAN_FOOD {
- '한식' = '한식', 
-}
-export const CONST_KOREAN_FOOD  = Object.values(KOREAN_FOOD);
-

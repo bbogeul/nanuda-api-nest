@@ -44,9 +44,7 @@ export class AdminMenuController extends BaseController {
    */
   @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
   @Get('/admin/menu/:id([0-9]+)')
-  async findOneForAdmin(
-    @Param('id', ParseIntPipe) mapId: number,
-  ): Promise<Menu> {
-    return await this.menuService.findOneForAdmin(mapId);
+  async findOne(@Param('id', ParseIntPipe) mapId: number): Promise<Menu> {
+    return await this.menuService.findOne(mapId);
   }
 }

@@ -4,7 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Brand } from './brand.entity';
 import { Repository } from 'typeorm';
 import { AdminBrandListDto, AdminBrandCreateDto, BrandListDto } from './dto';
-import { PaginatedRequest, PaginatedResponse, YN } from 'src/common';
+import {
+  PaginatedRequest,
+  PaginatedResponse,
+  YN,
+  ORDER_BY_VALUE,
+} from 'src/common';
 
 @Injectable()
 export class BrandService extends BaseService {
@@ -96,7 +101,16 @@ export class BrandService extends BaseService {
    * @param brandId
    */
   async findOne(brandId: number): Promise<Brand> {
-    return await this.__check_if_brand_exists_for_users(brandId);
+    await this.__check_if_brand_exists_for_users(brandId);
+    const qb = this.brandRepo
+      .createQueryBuilder('brand')
+      .select()
+      .CustomLeftJoinAndSelect(['menus'])
+      .addOrderBy('menus.no', ORDER_BY_VALUE.DESC)
+      .where('brand.no = :no', { no: brandId })
+      .andWhere('brand.delYn = :delYn', { delYn: YN.NO })
+      .andWhere('brand.showYn = :showYn', { showYn: YN.YES });
+    return await qb.getOne();
   }
 
   async findOneForAdmin(brandId: number): Promise<Brand> {
@@ -115,14 +129,11 @@ export class BrandService extends BaseService {
     const qb = await this.brandRepo
       .createQueryBuilder('Brand')
       .CustomLeftJoinAndSelect(['menus'])
-      .AndWhereEqual(
-        'Brand',
-        'showYn',
-        brandListDto.showYn,
-        brandListDto.exclude('showYn'),
-      )
+      .CustomInnerJoinAndSelect(['category'])
+      .addSelect(['category.nameKr, category.nameEng'])
       .WhereAndOrder(brandListDto)
       .Paginate(pagination);
+    await qb.getSql();
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
   }

@@ -17,5 +17,8 @@
   },
   "brand": {
     "notFound": "Brand does not exist."
+  },
+  "foodCategory": {
+    "notFound": "Food category does not exist."
   }
 }

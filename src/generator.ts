@@ -66,16 +66,13 @@ function generateFoodCategoryType(callback) {
         acc[cur.CODE].push(cur.NAME_KR);
         return acc;
       }, {});
-
+      output += `export enum FOOD_CATEGORY {\n`;
       Object.keys(codes).forEach(CODE => {
-        output += `export enum ${CODE} {\n`;
         codes[CODE].forEach(NAME_KR => {
-          output += ` '${NAME_KR}' = '${NAME_KR}', \n`;
+          output += ` '${CODE}' = '${CODE}', \n`;
         });
-        output += `}\n`;
-        output += `export const CONST_${CODE}  = Object.values(${CODE});\n`;
-        output += `\n`;
       });
+      output += `}\n`;
 
       const filePath = resolve('src/shared/food-category.type.ts');
       console.log(filePath);
@@ -136,12 +133,12 @@ const generate = (async () => {
   });
   generateSpaceType(() => {
     console.log('Generating');
-    if (connection) connection.end();
+    // if (connection) connection.end();
   });
-  // generateFoodCategoryType(() => {
-  //   // if (connection) connection.end();
-  //   console.log('Generating');
-  // });
+  generateFoodCategoryType(() => {
+    if (connection) connection.end();
+    console.log('Generating');
+  });
   // generateCodeManagementFile(() => {
   //   if (connection) connection.end();
   //   // process.exit();

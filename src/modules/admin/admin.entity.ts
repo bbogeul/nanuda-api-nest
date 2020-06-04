@@ -3,14 +3,17 @@ import { UserType } from '../auth/types/user.type';
 import { Column, Entity } from 'typeorm';
 import { YN } from '../../common';
 import { ADMIN_USER } from '../../shared';
+import { Exclude } from 'class-transformer';
 
 @Entity('ADMIN_USER')
 export class Admin extends BaseUser {
   constructor(partial?: any) {
     super(partial);
   }
+  @Exclude({ toPlainOnly: true })
   @Column({
     type: 'varchar',
+    select: false,
     nullable: false,
     length: 50,
     name: 'PASSWORD',

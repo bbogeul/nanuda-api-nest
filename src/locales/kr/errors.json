@@ -17,5 +17,8 @@
   },
   "brand": {
     "notFound": "브랜드가 존재하지 않습니다."
+  },
+  "foodCategory": {
+    "notFound": "존재하지 않는 종목입니다."
   }
 }

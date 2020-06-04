@@ -5,12 +5,14 @@ import {
   OneToMany,
   JoinColumn,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
 import { SPACE_TYPE } from 'src/shared';
 import { Menu } from '../menu/menu.entity';
 import { Exclude } from 'class-transformer';
+import { FoodCategory } from '../food-category/food-category.entity';
 
 @Entity({ name: 'BRAND' })
 export class Brand extends BaseEntity<Brand> {
@@ -80,6 +82,13 @@ export class Brand extends BaseEntity<Brand> {
     name: 'DEL_YN',
   })
   delYn: YN;
+
+  @ManyToOne(
+    type => FoodCategory,
+    category => category.brands,
+  )
+  @JoinColumn({ name: 'CATEGORY_NO' })
+  category: FoodCategory;
 
   @JoinTable({
     name: 'MENU',
