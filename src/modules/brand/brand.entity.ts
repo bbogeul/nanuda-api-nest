@@ -4,6 +4,7 @@ import {
   Column,
   OneToMany,
   JoinColumn,
+  JoinTable,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
@@ -80,7 +81,11 @@ export class Brand extends BaseEntity<Brand> {
   })
   delYn: YN;
 
-  @JoinColumn({ name: 'BRAND_NO' })
+  @JoinTable({
+    name: 'MENU',
+    joinColumn: { name: 'BRAND_NO' },
+    inverseJoinColumn: { name: 'NO' },
+  })
   @OneToMany(
     type => Menu,
     menu => menu.brand,

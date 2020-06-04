@@ -41,7 +41,7 @@ export class BrandService extends BaseService {
     const qb = this.brandRepo
       .createQueryBuilder('brand')
       .select()
-      .leftJoinAndSelect('brand.menus', 'menus')
+      .CustomLeftJoinAndSelect(['menus'])
       .AndWhereLike(
         'brand',
         'nameKr',
@@ -114,7 +114,7 @@ export class BrandService extends BaseService {
   ): Promise<PaginatedResponse<Brand>> {
     const qb = await this.brandRepo
       .createQueryBuilder('Brand')
-      .leftJoinAndSelect('Brand.menus', 'menus')
+      .CustomLeftJoinAndSelect(['menus'])
       .AndWhereEqual(
         'Brand',
         'showYn',
