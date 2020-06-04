@@ -33,7 +33,7 @@ export class MenuService extends BaseService {
   }
 
   /**
-   * find one for admin with query builder
+   * find one for admin with query
    * @param mapId
    */
   async findOneForAdmin(mapId: number): Promise<Menu> {
