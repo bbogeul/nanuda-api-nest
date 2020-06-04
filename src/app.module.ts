@@ -19,6 +19,7 @@ import {
   BrandModule,
   MenuModule,
   FoodCategoryModule,
+  DashboardModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 
@@ -34,6 +35,7 @@ import { AdminModule } from './modules/admin/admin.module';
     AuthModule,
     AdminModule,
     BrandModule,
+    DashboardModule,
     FoodCategoryModule,
     MenuModule,
     NanudaUserModule,
