@@ -1,8 +1,9 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { BaseUser } from '../../core/base-user.entity';
 import { YN } from 'src/common';
 import { UserType } from '../auth';
 import { NANUDA_USER } from 'src/shared';
+import { ProductConsult } from '../product-consult/product-consult.entity';
 
 @Entity({ name: 'NANUDA_USER' })
 export class NanudaUser extends BaseUser {
@@ -57,4 +58,10 @@ export class NanudaUser extends BaseUser {
   get authCode() {
     return NANUDA_USER.NORMAL_USER;
   }
+
+  @OneToMany(
+    type => ProductConsult,
+    productConsults => productConsults.nanudaUser,
+  )
+  productConsults: ProductConsult[];
 }

@@ -7,3 +7,4 @@ export * from './brand/brand.module';
 export * from './menu/menu.module';
 export * from './dashboard/dashboard.module';
 export * from './food-category/food-category.module';
+export * from './product-consult/product-consult.module';

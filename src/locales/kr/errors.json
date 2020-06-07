@@ -20,5 +20,8 @@
   },
   "foodCategory": {
     "notFound": "존재하지 않는 종목입니다."
+  },
+  "productConsult": {
+    "notFound": "방문신청 기록이 존재하지 않습니다."
   }
 }

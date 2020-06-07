@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentList } from './dashboard.entity';
-import { DashboardController } from './dashboard.controller';
+import { AdminDashboardController } from './admin-dashboard.controller';
 import { DashboardService } from './dashboard.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PaymentList], 'kitchen')],
-  controllers: [DashboardController],
+  controllers: [AdminDashboardController],
   exports: [],
   providers: [DashboardService],
 })

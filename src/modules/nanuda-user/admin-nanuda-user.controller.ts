@@ -19,6 +19,7 @@ import { NanudaUser } from '.';
 @Controller()
 @ApiBearerAuth()
 @ApiTags('ADMIN NANUDA USER')
+// @ApiBearerAuth()
 // @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
 export class AdminNanudaUserController extends BaseController {
   constructor(private readonly nanudaUserService: NanudaUserService) {

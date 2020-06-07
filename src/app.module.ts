@@ -17,6 +17,7 @@ import {
   FoodCategoryModule,
   DashboardModule,
   NanudaUserUpdateHistoryModule,
+  ProductConsultModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 import { PaymentList } from './modules/dashboard/dashboard.entity';
@@ -56,6 +57,7 @@ const env = process.env;
     NanudaUserModule,
     NanudaUserUpdateHistoryModule,
     PopupModule,
+    ProductConsultModule,
     CodeManagementModule,
   ],
   controllers: [AppController],

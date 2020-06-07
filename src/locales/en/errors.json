@@ -20,5 +20,8 @@
   },
   "foodCategory": {
     "notFound": "Food category does not exist."
+  },
+  "productConsult": {
+    "notFound": "Consult was not found."
   }
 }

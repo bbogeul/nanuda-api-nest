@@ -1,9 +1,10 @@
 import { BaseUser } from '../../core/base-user.entity';
 import { UserType } from '../auth/types/user.type';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany, JoinColumn } from 'typeorm';
 import { YN } from '../../common';
 import { ADMIN_USER } from '../../shared';
 import { Exclude } from 'class-transformer';
+import { ProductConsult } from '../product-consult/product-consult.entity';
 
 @Entity('ADMIN_USER')
 export class Admin extends BaseUser {
