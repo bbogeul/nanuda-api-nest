@@ -1,8 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { BaseEntity } from 'src/core';
 
-@Entity({ database: 'database2', name: 'PAYMENT_LIST' })
-export class PaymentList extends BaseEntity<PaymentList> {
+@Entity({ name: 'PAYMENT_LIST' })
+export class PaymentList {
   @PrimaryGeneratedColumn({
     type: 'int',
     unsigned: true,

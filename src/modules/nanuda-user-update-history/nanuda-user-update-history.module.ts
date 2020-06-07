@@ -3,10 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { NanudaUserUpdateHistory } from './nanuda-user-update-history.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([NanudaUserUpdateHistory]),
-    // TypeOrmModule.forRoot({ name: 'database1' }),
-  ],
+  imports: [TypeOrmModule.forFeature([NanudaUserUpdateHistory])],
   controllers: [],
   providers: [],
 })

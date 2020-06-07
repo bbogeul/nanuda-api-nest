@@ -59,36 +59,6 @@ export class BrandService extends BaseService {
         adminBrandListDto.nameEng,
         adminBrandListDto.exclude('nameEng'),
       )
-      .AndWhereEqual(
-        'brand',
-        'showYn',
-        adminBrandListDto.showYn,
-        adminBrandListDto.exclude('showYn'),
-      )
-      .AndWhereEqual(
-        'brand',
-        'delYn',
-        adminBrandListDto.delYn,
-        adminBrandListDto.exclude('delYn'),
-      )
-      .AndWhereEqual(
-        'brand',
-        'spaceTypeNo',
-        adminBrandListDto.spaceTypeNo,
-        adminBrandListDto.exclude('spaceTypeNo'),
-      )
-      .AndWhereEqual(
-        'brand',
-        'categoryNo',
-        adminBrandListDto.categoryNo,
-        adminBrandListDto.exclude('categoryNo'),
-      )
-      .AndWhereEqual(
-        'brand',
-        'adminNo',
-        adminBrandListDto.adminNo,
-        adminBrandListDto.exclude('adminNo'),
-      )
       .WhereAndOrder(adminBrandListDto)
       .Paginate(pagination);
 
