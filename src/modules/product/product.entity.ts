@@ -3,9 +3,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   TreeLevelColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
+import { Admin } from '../admin';
 
 @Entity({ name: 'PRODUCT' })
 export class Product extends BaseEntity<Product> {
@@ -116,4 +119,9 @@ export class Product extends BaseEntity<Product> {
     name: 'ETC',
   })
   etc?: string;
+
+  // Belongs to Manager/Admin
+  @ManyToOne(type => Admin)
+  @JoinColumn({ name: 'MANAGER' })
+  admin?: Admin;
 }

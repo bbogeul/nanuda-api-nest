@@ -20,7 +20,9 @@ export class DashboardService extends BaseService {
    * day graph for dashboard
    * @param adminDashboardDayGraphDto
    */
-  async graphByDays(adminDashboardDayGraphDto: AdminDashboardDayGraphDto) {
+  async graphByDays(
+    adminDashboardDayGraphDto: AdminDashboardDayGraphDto,
+  ): Promise<ChartData> {
     const chartData = new ChartData();
     const labels = [];
     for (let i = 0; i < adminDashboardDayGraphDto.days; i++) {

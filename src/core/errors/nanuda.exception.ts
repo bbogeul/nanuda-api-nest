@@ -16,6 +16,7 @@ export class NanudaException extends BaseException {
   constructor(code: string, message: string, value: object);
   constructor(code: string, message?: string | object, value?: object) {
     console.log(
+      code,
       'nanuda - exception',
       typeof code,
       typeof message,

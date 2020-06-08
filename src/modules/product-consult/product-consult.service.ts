@@ -125,6 +125,35 @@ export class ProductConsultService extends BaseService {
   }
 
   /**
+   * TODO: ATTACH IMAGE
+   * Product consult find one for homepage
+   * @param nanudaUserId
+   * @param productConsultId
+   */
+  async homePageFindOne(
+    nanudaUserId: number,
+    productConsultId: number,
+  ): Promise<ProductConsult> {
+    const check = await this.productConsultRepo.findOne({
+      where: {
+        no: productConsultId,
+        nanudaUserNo: nanudaUserId,
+      },
+    });
+    if (!check) {
+      throw new NanudaException('productConsult.notFound');
+    }
+    const qb = this.productConsultRepo
+      .createQueryBuilder('productConsult')
+      .CustomLeftJoinAndSelect(['product'])
+      .where('productConsult.no = :no', { no: productConsultId })
+      .andWhere('productConsult.nanudaUserNo = :nanudaUserNo', {
+        nanudaUserNo: nanudaUserId,
+      });
+    return await qb.getOne();
+  }
+
+  /**
    * hard delete product consult
    * @param productConsultId
    */

@@ -1,4 +1,12 @@
-import { Controller, UseGuards, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Post,
+  Body,
+  Get,
+  Param,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { BaseController } from 'src/core';
 import { ProductConsultService } from './product-consult.service';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -10,9 +18,9 @@ import { UserInfo } from 'src/common';
 import { NanudaUser } from '../nanuda-user';
 
 @Controller()
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @ApiTags('NANUDA PRODUCT CONSULT')
-// @UseGuards(new AuthRolesGuard(NANUDA_USER.NORMAL_USER))
+@UseGuards(new AuthRolesGuard(NANUDA_USER.NORMAL_USER))
 export class ProductConsultController extends BaseController {
   constructor(private readonly productConsultRepo: ProductConsultService) {
     super();
@@ -31,6 +39,22 @@ export class ProductConsultController extends BaseController {
     return await this.productConsultRepo.homePageCreate(
       nanudaUser.no,
       productConsultCreateDto,
+    );
+  }
+
+  /**
+   * find one for homepage
+   * @param nanudaUserId
+   * @param productConsultId
+   */
+  @Get('/product-consult/:id([0-9]+)')
+  async findOne(
+    @UserInfo() nanudaUser: NanudaUser,
+    @Param('id', ParseIntPipe) productConsultId: number,
+  ): Promise<ProductConsult> {
+    return await this.productConsultRepo.homePageFindOne(
+      nanudaUser.no,
+      productConsultId,
     );
   }
 }

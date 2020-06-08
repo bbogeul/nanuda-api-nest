@@ -18,6 +18,7 @@ import {
   DashboardModule,
   NanudaUserUpdateHistoryModule,
   ProductConsultModule,
+  ProductModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 import { PaymentList } from './modules/dashboard/dashboard.entity';
@@ -37,13 +38,14 @@ const env = process.env;
       username: env.REV_DB_USERNAME,
       password: env.REV_DB_PASSWORD,
       database: env.REV_DB_NAME,
+      // won't need to keep alive
       //   keepConnectionAlive: true,
       bigNumberStrings: false,
       supportBigNumbers: false,
       entities: [PaymentList],
       // migrations: [],
       // cli: {},
-      subscribers: [],
+      // subscribers: [],
       //   Do not turn to true!!!! 나누다 키친 데이터 다 날라가요 ~ ㅠㅠ
       synchronize: false,
     }),
@@ -57,6 +59,7 @@ const env = process.env;
     NanudaUserModule,
     NanudaUserUpdateHistoryModule,
     PopupModule,
+    ProductModule,
     ProductConsultModule,
     CodeManagementModule,
   ],
