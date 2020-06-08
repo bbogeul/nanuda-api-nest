@@ -43,13 +43,6 @@ export class Brand extends BaseEntity<Brand> {
   })
   desc?: string;
 
-  @Column('int', {
-    nullable: false,
-    default: 0,
-    name: 'SPACE_TYPE_NO',
-  })
-  spaceTypeNo: SPACE_TYPE;
-
   @Exclude()
   @Column('int', {
     nullable: false,
