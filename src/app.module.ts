@@ -19,6 +19,7 @@ import {
   NanudaUserUpdateHistoryModule,
   ProductConsultModule,
   ProductModule,
+  SpaceTypeBrandMapperModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 import { PaymentList } from './modules/dashboard/dashboard.entity';
@@ -53,6 +54,7 @@ const env = process.env;
     AuthModule,
     AdminModule,
     BrandModule,
+    CodeManagementModule,
     DashboardModule,
     FoodCategoryModule,
     MenuModule,
@@ -61,7 +63,7 @@ const env = process.env;
     PopupModule,
     ProductModule,
     ProductConsultModule,
-    CodeManagementModule,
+    SpaceTypeBrandMapperModule,
   ],
   controllers: [AppController],
   providers: [

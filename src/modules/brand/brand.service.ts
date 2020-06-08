@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { BaseService, NanudaException } from 'src/core';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm';
 import { Brand } from './brand.entity';
-import { Repository } from 'typeorm';
+import { Repository, EntityManager } from 'typeorm';
 import { AdminBrandListDto, AdminBrandCreateDto, BrandListDto } from './dto';
 import {
   PaginatedRequest,
@@ -10,27 +10,62 @@ import {
   YN,
   ORDER_BY_VALUE,
 } from 'src/common';
+import { SpaceTypeBrandMapper } from '../space-type-brand-mapper/space-type-brand-mapper.entity';
+import { FoodCategory } from '../food-category/food-category.entity';
 
 @Injectable()
 export class BrandService extends BaseService {
   constructor(
     @InjectRepository(Brand) private readonly brandRepo: Repository<Brand>,
+    @InjectRepository(FoodCategory)
+    private readonly foodCategoryRepo: Repository<FoodCategory>,
+    @InjectEntityManager() private readonly entityManager: EntityManager,
   ) {
     super();
   }
 
   /**
-   * create brand by admind
+   * create brand with mapping
+   * TODO: image
    * @param adminBrandCreateDto
    * @param adminId
    */
-  async create(
+  async newCreate(
     adminBrandCreateDto: AdminBrandCreateDto,
     adminId: number,
   ): Promise<Brand> {
-    let brand = new Brand(adminBrandCreateDto);
-    brand.adminNo = adminId;
-    brand = await this.brandRepo.save(brand);
+    const brand = await this.entityManager.transaction(async entityManager => {
+      // add admin id for adminNo
+      adminBrandCreateDto.adminNo = adminId;
+      let newBrand = new Brand(adminBrandCreateDto);
+      if (adminBrandCreateDto.categoryNo) {
+        const category = await this.foodCategoryRepo.findOne({
+          where: {
+            no: adminBrandCreateDto.categoryNo,
+            delYn: YN.NO,
+          },
+        });
+        if (!category) {
+          // TODO: Change to nanuda exception
+          throw new NotFoundException({ message: 'NO CATEGORY FOUND' });
+        }
+      }
+      newBrand = await entityManager.save(newBrand);
+      // create space type brand mapper
+      if (
+        adminBrandCreateDto.spaceTypeIds &&
+        adminBrandCreateDto.spaceTypeIds.length > 0
+      ) {
+        adminBrandCreateDto.spaceTypeIds.map(async spaceTypeId => {
+          const spaceTypeBrandMapper = new SpaceTypeBrandMapper();
+          spaceTypeBrandMapper.brandNo = newBrand.no;
+          spaceTypeBrandMapper.spaceTypeNo = parseInt(spaceTypeId, 10);
+          spaceTypeBrandMapper.brandName = newBrand.nameKr;
+          await entityManager.save(spaceTypeBrandMapper);
+        });
+      }
+      return newBrand;
+    });
     return brand;
   }
 

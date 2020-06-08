@@ -9,3 +9,4 @@ export * from './dashboard/dashboard.module';
 export * from './food-category/food-category.module';
 export * from './product-consult/product-consult.module';
 export * from './product/product.module';
+export * from './space-type-brand-mapper/space-type-brand-mapper.module';

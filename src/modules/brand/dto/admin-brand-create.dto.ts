@@ -33,12 +33,6 @@ export class AdminBrandCreateDto extends BaseDto<AdminBrandCreateDto>
   @Expose()
   categoryNo?: number;
 
-  @ApiPropertyOptional({ enum: SPACE_TYPE })
-  @IsOptional()
-  @IsEnum(SPACE_TYPE)
-  @Expose()
-  spaceTypeNo?: SPACE_TYPE;
-
   @ApiPropertyOptional({ enum: YN })
   @IsOptional()
   @IsEnum(YN)
@@ -54,4 +48,9 @@ export class AdminBrandCreateDto extends BaseDto<AdminBrandCreateDto>
   delYn?: YN;
 
   adminNo: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Expose()
+  spaceTypeIds: string[];
 }
