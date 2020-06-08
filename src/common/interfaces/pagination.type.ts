@@ -13,15 +13,15 @@ export class PaginatedRequest {
   @ApiPropertyOptional()
   @Type(() => Number)
   @Min(0)
-  @Expose()
-  @Default(0)
-  skip?: number;
-
-  @ApiPropertyOptional()
-  @Type(() => Number)
-  @Min(0)
   @Max(80)
   @Expose()
   @Default(20)
   take?: number;
+
+  @ApiPropertyOptional()
+  @Type(() => Number)
+  @Min(0)
+  @Expose()
+  @Default(0)
+  skip?: number;
 }

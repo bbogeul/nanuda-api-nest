@@ -361,6 +361,6 @@ SelectQueryBuilder.prototype.Paginate = function<Entity>(
   this: SelectQueryBuilder<Entity>,
   pagination: PaginatedRequest,
 ): SelectQueryBuilder<Entity> {
-  this.skip(pagination.skip).take(pagination.take);
+  this.skip(pagination.skip * pagination.take).take(pagination.take);
   return this;
 };
