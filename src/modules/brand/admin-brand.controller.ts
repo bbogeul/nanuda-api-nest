@@ -37,7 +37,7 @@ export class AdminBrandController extends BaseController {
     @UserInfo() admin: Admin,
     @Body() adminBrandCreateDto: AdminBrandCreateDto,
   ): Promise<Brand> {
-    return await this.brandService.newCreate(adminBrandCreateDto, admin.no);
+    return await this.brandService.create(adminBrandCreateDto, admin.no);
   }
 
   /**

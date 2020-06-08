@@ -30,7 +30,7 @@ export class BrandService extends BaseService {
    * @param adminBrandCreateDto
    * @param adminId
    */
-  async newCreate(
+  async create(
     adminBrandCreateDto: AdminBrandCreateDto,
     adminId: number,
   ): Promise<Brand> {
