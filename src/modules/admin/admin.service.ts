@@ -7,11 +7,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AdminUpdateStatusDto } from './dto/admin-update-status.dto';
 import { userInfo } from 'os';
+import { PasswordTestDto } from './dto/password-testing.dto';
+import { PasswordService } from '../auth';
 
 @Injectable()
 export class AdminService extends BaseService {
   constructor(
     @InjectRepository(Admin) private readonly adminRepo: Repository<Admin>,
+    private readonly passwordService: PasswordService,
   ) {
     super();
   }
@@ -137,6 +140,16 @@ export class AdminService extends BaseService {
   ): Promise<Admin> {
     let admin = await this.adminRepo.findOne(adminId);
     admin = admin.set(adminUpdateStatusDto);
+    admin = await this.adminRepo.save(admin);
+    return admin;
+  }
+
+  async encryptPassword(adminId: number, passwordTestDto: PasswordTestDto) {
+    let admin = await this.adminRepo.findOne(adminId);
+    const newPassword = await this.passwordService.hashPassword(
+      passwordTestDto.password,
+    );
+    admin = admin.set({ password: newPassword });
     admin = await this.adminRepo.save(admin);
     return admin;
   }

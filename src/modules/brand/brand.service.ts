@@ -3,7 +3,12 @@ import { BaseService, NanudaException } from 'src/core';
 import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm';
 import { Brand } from './brand.entity';
 import { Repository, EntityManager } from 'typeorm';
-import { AdminBrandListDto, AdminBrandCreateDto, BrandListDto } from './dto';
+import {
+  AdminBrandListDto,
+  AdminBrandCreateDto,
+  BrandListDto,
+  AdminBrandUpdateDto,
+} from './dto';
 import {
   PaginatedRequest,
   PaginatedResponse,
@@ -19,6 +24,8 @@ export class BrandService extends BaseService {
     @InjectRepository(Brand) private readonly brandRepo: Repository<Brand>,
     @InjectRepository(FoodCategory)
     private readonly foodCategoryRepo: Repository<FoodCategory>,
+    @InjectRepository(SpaceTypeBrandMapper)
+    private readonly spaceTypeBrandMapperRepo: Repository<SpaceTypeBrandMapper>,
     @InjectEntityManager() private readonly entityManager: EntityManager,
   ) {
     super();
@@ -65,6 +72,63 @@ export class BrandService extends BaseService {
         });
       }
       return newBrand;
+    });
+    return brand;
+  }
+
+  /**
+   * update for brand with mapper
+   * @param brandId
+   * @param adminId
+   * @param adminBrandUpdateDto
+   */
+  async update(
+    brandId: number,
+    adminId: number,
+    adminBrandUpdateDto: AdminBrandUpdateDto,
+  ): Promise<Brand> {
+    const brand = await this.entityManager.transaction(async entityManager => {
+      let brand = await this.brandRepo.findOne({
+        where: { no: brandId, delYn: YN.NO },
+      });
+      if (!brand) {
+        throw new NotFoundException('NO BRAND');
+      }
+      if (
+        adminBrandUpdateDto.categoryNo &&
+        adminBrandUpdateDto.categoryNo !== 0
+      ) {
+        const category = await this.foodCategoryRepo.findOne(
+          adminBrandUpdateDto.categoryNo,
+        );
+        if (!category) {
+          // TODO: Change to nanuda exception
+          throw new NotFoundException({ message: 'NO CATEGORY FOUND' });
+        }
+      }
+      brand = brand.set(adminBrandUpdateDto);
+      brand.adminNo = adminId;
+      brand = await entityManager.save(brand);
+      if (
+        adminBrandUpdateDto.spaceTypeIds &&
+        adminBrandUpdateDto.spaceTypeIds.length > 0
+      ) {
+        // first destroy mappers
+        await this.spaceTypeBrandMapperRepo
+          .createQueryBuilder('mapperBrand')
+          .delete()
+          .where('mapperBrand.brandNo = :brandNo', { brandNo: brandId })
+          .execute();
+        // then create new
+        adminBrandUpdateDto.spaceTypeIds.map(async spaceTypeId => {
+          const spaceTypeBrandMapper = new SpaceTypeBrandMapper();
+          spaceTypeBrandMapper.brandName = brand.nameKr;
+          spaceTypeBrandMapper.brandNo = brand.no;
+          spaceTypeBrandMapper.spaceTypeNo = parseInt(spaceTypeId, 10);
+          await entityManager.save(spaceTypeBrandMapper);
+        });
+      }
+      return brand;
     });
     return brand;
   }
@@ -142,6 +206,31 @@ export class BrandService extends BaseService {
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
   }
+
+  // /**
+  //  * find brand by category
+  //  * @param foodCategoryNo
+  //  * @param brandListDto
+  //  * @param pagination
+  //  */
+  // async findBrandByCategory(
+  //   foodCategoryNo: number,
+  //   brandListDto: BrandListDto,
+  //   pagination: PaginatedRequest,
+  // ): Promise<PaginatedResponse<Brand>> {
+  //   const category = await this.foodCategoryRepo.findOne(foodCategoryNo);
+  //   if (!category) {
+  //     throw new NotFoundException('CATEGORY NOT FOUND');
+  //   }
+  //   const qb = this.brandRepo
+  //     .createQueryBuilder('brand')
+  //     .CustomInnerJoinAndSelect(['category'])
+  //     .where('brand.categoryNo = :categoryNo', { categoryNo: foodCategoryNo })
+  //     .WhereAndOrder(brandListDto)
+  //     .Paginate(pagination);
+  //   const [items, totalCount] = await qb.getManyAndCount();
+  //   return { items, totalCount };
+  // }
 
   private async __check_if_brand_exists_for_users(brandId: number) {
     const brand = await this.brandRepo.findOne({

@@ -6,24 +6,27 @@ const bcryptSaltRounds = 10;
 
 @Injectable()
 export class PasswordService extends BaseService {
-    constructor() {
-        super()
-    }
+  constructor() {
+    super();
+  }
 
-    /**
-     * compare password for validation
-     * @param password 
-     * @param hashedPassword 
-     */
-    async validatePassword(password: string, hashedPassword: string): Promise<boolean> {
-        return await compare(password, hashedPassword);
-    }
+  /**
+   * compare password for validation
+   * @param password
+   * @param hashedPassword
+   */
+  async validatePassword(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await compare(password, hashedPassword);
+  }
 
-    /**
-     * hash password
-     * @param password 
-     */
-    async hashPassword(password: string): Promise<string> {
-        return hash(password, bcryptSaltRounds);
-    }
+  /**
+   * hash password
+   * @param password
+   */
+  async hashPassword(password: string) {
+    return hash(password, bcryptSaltRounds);
+  }
 }

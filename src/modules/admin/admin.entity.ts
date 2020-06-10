@@ -14,9 +14,9 @@ export class Admin extends BaseUser {
   @Exclude({ toPlainOnly: true })
   @Column({
     type: 'varchar',
-    select: false,
     nullable: false,
-    length: 50,
+    select: false,
+    length: 512,
     name: 'PASSWORD',
     default: '12345678',
   })

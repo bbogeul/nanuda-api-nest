@@ -35,7 +35,7 @@ export class AuthRolesGuard extends AuthGuard('jwt') {
     if (this.roles.length) {
       console.log(this.roles);
       const newArray = [];
-      const arrayedRoles = user.authCode.split(', ');
+      const arrayedRoles = user.authCode.split(',');
       arrayedRoles.map(levels => newArray.push(levels));
       const hasRoles = () => this.roles.some(role => newArray.includes(role));
 

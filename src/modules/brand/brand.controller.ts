@@ -8,7 +8,7 @@ import { PaginatedResponse } from 'src/common';
 import { Brand } from './brand.entity';
 
 @Controller()
-@ApiBearerAuth()
+// @ApiBearerAuth()
 @ApiTags('NANUDA BRAND')
 export class BrandController extends BaseController {
   constructor(private readonly brandService: BrandService) {
@@ -36,4 +36,23 @@ export class BrandController extends BaseController {
   async findOne(@Param('id', ParseIntPipe) brandId: number): Promise<Brand> {
     return await this.brandService.findOne(brandId);
   }
+
+  // /**
+  //  * find brand by category
+  //  * @param foodCategoryNo
+  //  * @param brandListDto
+  //  * @param pagination
+  //  */
+  // @Get('/brand/food-category/:id([0-9]+)')
+  // async findByCategory(
+  //   @Param('id', ParseIntPipe) foodCategoryNo: number,
+  //   @Query() brandListDto: BrandListDto,
+  //   @Query() pagination: PaginatedRequest,
+  // ): Promise<PaginatedResponse<Brand>> {
+  //   return await this.brandService.findBrandByCategory(
+  //     foodCategoryNo,
+  //     brandListDto,
+  //     pagination,
+  //   );
+  // }
 }

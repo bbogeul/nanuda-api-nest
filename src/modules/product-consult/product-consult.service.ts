@@ -23,8 +23,6 @@ export class ProductConsultService extends BaseService {
     private readonly nanudaUserRepo: Repository<NanudaUser>,
   ) {
     super();
-    console.log(this.constructor.name);
-    const className = this.constructor.name;
   }
 
   /**

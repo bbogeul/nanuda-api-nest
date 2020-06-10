@@ -17,8 +17,7 @@ const _util = {
     if (!value) {
       throw new Error('orderKey value not found.');
     }
-    // ex) value = orderById => Id
-    // ex) value = orderByProductOptionsId => ProductOptionsId
+    // ex) value = orderByNo => No
     value = value.replace(ORDER_BY_PREFIX, '');
     value = _util.firstLetterToLowerCase(value);
     return value;
@@ -27,9 +26,6 @@ const _util = {
     if (!value) {
       return value;
     }
-    // 첫문자만 소문자로 변환한다.
-    // ex) value = Id => id
-    // ex) value = ProductOptionsId => productOptionsId
     value = value.substring(0, 1).toLowerCase() + value.substring(1);
     return value;
   },

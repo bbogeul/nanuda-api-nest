@@ -19,6 +19,7 @@ import { PaginatedRequest, PaginatedResponse, UserInfo } from 'src/common';
 import { Admin } from './admin.entity';
 import { AdminService } from './admin.service';
 import { AdminUpdateStatusDto } from './dto/admin-update-status.dto';
+import { PasswordTestDto } from './dto/password-testing.dto';
 
 @ApiTags('ADMIN')
 @ApiBearerAuth()
@@ -130,5 +131,14 @@ export class AdminController extends BaseController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<Admin> {
     return await this.adminService.updateStatus(id, adminUpdateStatusDto);
+  }
+
+  // testing
+  @Post('/admin/change-pw/:id([0-9]+)')
+  async changePW(
+    @Body() passwordDto: PasswordTestDto,
+    @Param('id', ParseIntPipe) adminId: number,
+  ) {
+    return await this.adminService.encryptPassword(adminId, passwordDto);
   }
 }

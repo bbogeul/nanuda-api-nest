@@ -7,11 +7,16 @@ import {
   ParseIntPipe,
   Body,
   Post,
+  Patch,
 } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { BaseController } from 'src/core';
 import { BrandService } from './brand.service';
-import { AdminBrandListDto, AdminBrandCreateDto } from './dto';
+import {
+  AdminBrandListDto,
+  AdminBrandCreateDto,
+  AdminBrandUpdateDto,
+} from './dto';
 import { PaginatedRequest, PaginatedResponse, UserInfo } from 'src/common';
 import { Brand } from './brand.entity';
 import { AuthRolesGuard } from 'src/core/guards';
@@ -40,6 +45,25 @@ export class AdminBrandController extends BaseController {
     return await this.brandService.create(adminBrandCreateDto, admin.no);
   }
 
+  /**
+   * brand update by admin
+   * @param brandId
+   * @param admin
+   * @param adminBrandUpdateDto
+   */
+  @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
+  @Patch('/admin/brand/:id([0-9]+)')
+  async update(
+    @Param('id', ParseIntPipe) brandId: number,
+    @UserInfo() admin: Admin,
+    @Body() adminBrandUpdateDto: AdminBrandUpdateDto,
+  ): Promise<Brand> {
+    return await this.brandService.update(
+      brandId,
+      admin.no,
+      adminBrandUpdateDto,
+    );
+  }
   /**
    * get brands for admin
    * @param adminBrandListDto
