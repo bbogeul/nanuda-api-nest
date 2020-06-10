@@ -1,0 +1,27 @@
+{
+  "auth": {
+    "notFound": "Admin does not exist.",
+    "passwordNotEqual": "Passwords do not match.",
+    "notAvailable": "Cannot login. You are not an admin.",
+    "alreadyExist": "Admin already exists."
+  },
+  "codeManagement": {
+    "duplicate": "Code already exists in DB."
+  },
+  "nanudaUser": {
+    "exists": "User already exists",
+    "notExists": "User does not exist."
+  },
+  "popup": {
+    "notFound": "Popup does not exist."
+  },
+  "brand": {
+    "notFound": "Brand does not exist."
+  },
+  "foodCategory": {
+    "notFound": "Food category does not exist."
+  },
+  "productConsult": {
+    "notFound": "Consult was not found."
+  }
+}
