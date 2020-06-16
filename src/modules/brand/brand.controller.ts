@@ -55,4 +55,22 @@ export class BrandController extends BaseController {
   //     pagination,
   //   );
   // }
+  /**
+   * find brands by space type
+   * @param spaceTypeNo
+   * @param brandListDto
+   * @param pagination
+   */
+  @Get('/brand/space-type/:id([0-9]+)')
+  async findBySpaceType(
+    @Param('id', ParseIntPipe) spaceTypeNo: number,
+    @Query() brandListDto: BrandListDto,
+    @Query() pagination: PaginatedRequest,
+  ): Promise<PaginatedResponse<Brand>> {
+    return await this.brandService.findBySpaceType(
+      spaceTypeNo,
+      brandListDto,
+      pagination,
+    );
+  }
 }

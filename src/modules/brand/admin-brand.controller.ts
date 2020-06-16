@@ -20,7 +20,7 @@ import {
 import { PaginatedRequest, PaginatedResponse, UserInfo } from 'src/common';
 import { Brand } from './brand.entity';
 import { AuthRolesGuard } from 'src/core/guards';
-import { CONST_ADMIN_USER } from 'src/shared';
+import { CONST_ADMIN_USER, SPACE_TYPE } from 'src/shared';
 import { Admin } from '../admin';
 
 @Controller()
@@ -64,6 +64,7 @@ export class AdminBrandController extends BaseController {
       adminBrandUpdateDto,
     );
   }
+
   /**
    * get brands for admin
    * @param adminBrandListDto
@@ -84,7 +85,47 @@ export class AdminBrandController extends BaseController {
    */
   @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
   @Get('/admin/brand/:id([0-9]+)')
-  async findOne(@Param('id', ParseIntPipe) brandId: number): Promise<Brand> {
-    return await this.brandService.findOne(brandId);
+  async findOne(@Param('id', ParseIntPipe) brandNo: number): Promise<Brand> {
+    return await this.brandService.findOne(brandNo);
+  }
+
+  /**
+   * find by category for admin
+   * @param foodCategoryNo
+   * @param adminBrandListDto
+   * @param pagination
+   */
+  @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
+  @Get('/admin/brand/food-category/:id([0-9]+)')
+  async findByFoodCategory(
+    @Param('id', ParseIntPipe) foodCategoryNo: number,
+    @Query() adminBrandListDto: AdminBrandListDto,
+    @Query() pagination: PaginatedRequest,
+  ): Promise<PaginatedResponse<Brand>> {
+    return await this.brandService.findBrandByCategory(
+      foodCategoryNo,
+      adminBrandListDto,
+      pagination,
+    );
+  }
+
+  /**
+   * testing query
+   * @param spaceTypeNo
+   * @param adminBrandListDto
+   * @param pagination
+   */
+  @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
+  @Get('/admin/brand/space-type/:id([0-9]+)')
+  async findBySpaceType(
+    @Param('id', ParseIntPipe) spaceTypeNo: number,
+    @Query() adminBrandListDto: AdminBrandListDto,
+    @Query() pagination: PaginatedRequest,
+  ) {
+    return await this.brandService.findBySpaceType(
+      spaceTypeNo,
+      adminBrandListDto,
+      pagination,
+    );
   }
 }

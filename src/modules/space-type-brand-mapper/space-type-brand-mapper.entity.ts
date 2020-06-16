@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 import { BaseEntity } from 'src/core';
+import { Brand } from '../brand/brand.entity';
 
 @Entity({ name: 'SPACE_TYPE_BRAND_MAPPER' })
 export class SpaceTypeBrandMapper {

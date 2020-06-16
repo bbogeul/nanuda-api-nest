@@ -17,6 +17,7 @@ import {
 } from 'src/common';
 import { SpaceTypeBrandMapper } from '../space-type-brand-mapper/space-type-brand-mapper.entity';
 import { FoodCategory } from '../food-category/food-category.entity';
+import { SpaceType } from '../space-type/space-type.entity';
 
 @Injectable()
 export class BrandService extends BaseService {
@@ -26,6 +27,8 @@ export class BrandService extends BaseService {
     private readonly foodCategoryRepo: Repository<FoodCategory>,
     @InjectRepository(SpaceTypeBrandMapper)
     private readonly spaceTypeBrandMapperRepo: Repository<SpaceTypeBrandMapper>,
+    @InjectRepository(SpaceType)
+    private readonly spaceTypeRepo: Repository<SpaceType>,
     @InjectEntityManager() private readonly entityManager: EntityManager,
   ) {
     super();
@@ -145,7 +148,7 @@ export class BrandService extends BaseService {
     const qb = this.brandRepo
       .createQueryBuilder('brand')
       .select()
-      .CustomLeftJoinAndSelect(['menus'])
+      .CustomLeftJoinAndSelect(['menus', 'category'])
       .AndWhereLike(
         'brand',
         'nameKr',
@@ -174,7 +177,7 @@ export class BrandService extends BaseService {
     const qb = this.brandRepo
       .createQueryBuilder('brand')
       .select()
-      .CustomLeftJoinAndSelect(['menus'])
+      .CustomLeftJoinAndSelect(['menus', 'category', 'spaceTypes'])
       .addOrderBy('menus.no', ORDER_BY_VALUE.DESC)
       .where('brand.no = :no', { no: brandId })
       .andWhere('brand.delYn = :delYn', { delYn: YN.NO })
@@ -207,30 +210,52 @@ export class BrandService extends BaseService {
     return { items, totalCount };
   }
 
-  // /**
-  //  * find brand by category
-  //  * @param foodCategoryNo
-  //  * @param brandListDto
-  //  * @param pagination
-  //  */
-  // async findBrandByCategory(
-  //   foodCategoryNo: number,
-  //   brandListDto: BrandListDto,
-  //   pagination: PaginatedRequest,
-  // ): Promise<PaginatedResponse<Brand>> {
-  //   const category = await this.foodCategoryRepo.findOne(foodCategoryNo);
-  //   if (!category) {
-  //     throw new NotFoundException('CATEGORY NOT FOUND');
-  //   }
-  //   const qb = this.brandRepo
-  //     .createQueryBuilder('brand')
-  //     .CustomInnerJoinAndSelect(['category'])
-  //     .where('brand.categoryNo = :categoryNo', { categoryNo: foodCategoryNo })
-  //     .WhereAndOrder(brandListDto)
-  //     .Paginate(pagination);
-  //   const [items, totalCount] = await qb.getManyAndCount();
-  //   return { items, totalCount };
-  // }
+  /**
+   * find brand by category
+   * @param foodCategoryNo
+   * @param brandListDto
+   * @param pagination
+   */
+  async findBrandByCategory(
+    foodCategoryNo: number,
+    brandListDo: AdminBrandListDto | BrandListDto,
+    pagination: PaginatedRequest,
+  ): Promise<PaginatedResponse<Brand>> {
+    const category = await this.foodCategoryRepo.findOne(foodCategoryNo);
+    if (!category) {
+      throw new NotFoundException('CATEGORY NOT FOUND');
+    }
+    const qb = this.brandRepo
+      .createQueryBuilder('brand')
+      .CustomInnerJoinAndSelect(['category'])
+      .where('brand.categoryNo = :categoryNo', { categoryNo: foodCategoryNo })
+      .WhereAndOrder(brandListDo)
+      .Paginate(pagination);
+    const [items, totalCount] = await qb.getManyAndCount();
+    return { items, totalCount };
+  }
+
+  /**
+   * get all brands under one space type
+   * @param spaceTypeNo
+   * @param brandListDto
+   * @param pagination
+   */
+  async findBySpaceType(
+    spaceTypeNo: number,
+    brandListDto?: AdminBrandListDto | BrandListDto,
+    pagination?: PaginatedRequest,
+  ): Promise<PaginatedResponse<Brand>> {
+    const qb = this.brandRepo
+      .createQueryBuilder('brand')
+      .CustomInnerJoinAndSelect(['category'])
+      .innerJoin('brand.spaceTypes', 'spaceTypes')
+      .where('spaceTypes.no = :no', { no: spaceTypeNo })
+      .WhereAndOrder(brandListDto)
+      .Paginate(pagination);
+    const [items, totalCount] = await qb.getManyAndCount();
+    return { items, totalCount };
+  }
 
   private async __check_if_brand_exists_for_users(brandId: number) {
     const brand = await this.brandRepo.findOne({

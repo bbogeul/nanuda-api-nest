@@ -6,6 +6,7 @@ import {
   JoinColumn,
   JoinTable,
   ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
@@ -13,6 +14,7 @@ import { SPACE_TYPE } from 'src/shared';
 import { Menu } from '../menu/menu.entity';
 import { Exclude } from 'class-transformer';
 import { FoodCategory } from '../food-category/food-category.entity';
+import { SpaceType } from '../space-type/space-type.entity';
 
 @Entity({ name: 'BRAND' })
 export class Brand extends BaseEntity<Brand> {
@@ -93,4 +95,19 @@ export class Brand extends BaseEntity<Brand> {
     menu => menu.brand,
   )
   menus?: Menu[];
+
+  @ManyToMany(
+    type => SpaceType,
+    spaceType => spaceType.brands,
+  )
+  @JoinTable({
+    name: 'SPACE_TYPE_BRAND_MAPPER',
+    joinColumn: {
+      name: 'BRAND_NO',
+    },
+    inverseJoinColumn: {
+      name: 'SPACE_TYPE_NO',
+    },
+  })
+  spaceTypes?: SpaceType[];
 }

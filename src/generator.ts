@@ -136,13 +136,13 @@ const generate = (async () => {
     // if (connection) connection.end();
   });
   generateFoodCategoryType(() => {
-    if (connection) connection.end();
+    // if (connection) connection.end();
     console.log('Generating');
   });
-  // generateCodeManagementFile(() => {
-  //   if (connection) connection.end();
-  //   // process.exit();
-  // });
+  generateCodeManagementFile(() => {
+    if (connection) connection.end();
+    // process.exit();
+  });
 })();
 
 export { generate };
