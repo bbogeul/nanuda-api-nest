@@ -6,11 +6,23 @@ export enum ADMIN_USER {
 }
 export const CONST_ADMIN_USER  = Object.values(ADMIN_USER);
 
+export enum AMENITY {
+ 'COMMON_FACILITY' = 'COMMON_FACILITY', 
+ 'KITCHEN_FACILITY' = 'KITCHEN_FACILITY', 
+}
+export const CONST_AMENITY  = Object.values(AMENITY);
+
 export enum CHANGUP_CONTRACT {
  'C_END' = 'C_END', 
  'C_PROCEEDING' = 'C_PROCEEDING', 
 }
 export const CONST_CHANGUP_CONTRACT  = Object.values(CHANGUP_CONTRACT);
+
+export enum COMPANY {
+ 'OTHER_COMPANY' = 'OTHER_COMPANY', 
+ 'PRIMARY_COMPANY' = 'PRIMARY_COMPANY', 
+}
+export const CONST_COMPANY  = Object.values(COMPANY);
 
 export enum FOUNDER_CONSULT {
  'F_ADD_TOUR' = 'F_ADD_TOUR', 
@@ -28,6 +40,11 @@ export enum FOUNDER_CONSULT {
  'F_WATING_CONTRACT' = 'F_WATING_CONTRACT', 
 }
 export const CONST_FOUNDER_CONSULT  = Object.values(FOUNDER_CONSULT);
+
+export enum HOMEPAGE_MEDIA {
+ 'YOUTUBE' = 'YOUTUBE', 
+}
+export const CONST_HOMEPAGE_MEDIA  = Object.values(HOMEPAGE_MEDIA);
 
 export enum LINK_TYPE {
  'EXTERNAL' = 'EXTERNAL', 
@@ -62,6 +79,12 @@ export enum PRODUCT_CONSULT {
  'P_WATING_CONTRACT' = 'P_WATING_CONTRACT', 
 }
 export const CONST_PRODUCT_CONSULT  = Object.values(PRODUCT_CONSULT);
+
+export enum PROMOTION {
+ 'PROMOTION_BRAND' = 'PROMOTION_BRAND', 
+ 'PROMOTION_SPACE' = 'PROMOTION_SPACE', 
+}
+export const CONST_PROMOTION  = Object.values(PROMOTION);
 
 export enum SPACE {
  'ALL' = 'ALL', 

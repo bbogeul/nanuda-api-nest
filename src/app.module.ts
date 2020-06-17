@@ -23,6 +23,7 @@ import {
   RevenueModule,
   SpaceTypeModule,
   CompanyModule,
+  SpaceModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 import { PaymentList } from './modules/dashboard/dashboard.entity';
@@ -68,6 +69,7 @@ const env = process.env;
     ProductModule,
     ProductConsultModule,
     RevenueModule,
+    SpaceModule,
     SpaceTypeModule,
     SpaceTypeBrandMapperModule,
   ],

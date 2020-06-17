@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { COMPANY } from 'src/shared';
+import { CompanyDistrict } from '../company-district/company-district.entity';
+import { Promotion } from '../promotion/promotion.entity';
 
 @Entity({ name: 'COMPANY' })
 export class Company extends BaseEntity<Company> {
@@ -94,4 +102,16 @@ export class Company extends BaseEntity<Company> {
     name: 'WEBSITE',
   })
   website?: string;
+
+  @OneToMany(
+    type => CompanyDistrict,
+    companyDistrict => companyDistrict.company,
+  )
+  companyDistricts?: CompanyDistrict[];
+
+  @OneToMany(
+    type => Promotion,
+    promotion => promotion.company,
+  )
+  promotions?: Promotion[];
 }

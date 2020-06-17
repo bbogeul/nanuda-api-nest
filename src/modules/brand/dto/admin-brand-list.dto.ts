@@ -49,12 +49,6 @@ export class AdminBrandListDto extends BaseDto<AdminBrandListDto>
   @Expose()
   adminNo?: number;
 
-  @ApiPropertyOptional({ enum: SPACE_TYPE })
-  @IsOptional()
-  @IsEnum(SPACE_TYPE)
-  @Expose()
-  spaceTypeNo?: SPACE_TYPE;
-
   @ApiPropertyOptional({ enum: ORDER_BY_VALUE })
   @IsOptional()
   @Expose()
