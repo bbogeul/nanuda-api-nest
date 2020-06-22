@@ -25,6 +25,7 @@ import { PaginatedRequest, PaginatedResponse, UserInfo } from 'src/common';
 import { Company } from './company.entity';
 import { Admin } from '../admin/admin.entity';
 import { CompanyDistrict } from '../company-district/company-district.entity';
+import { Promotion } from '../promotion/promotion.entity';
 
 @ApiTags('ADMIN COMPANY')
 @ApiBearerAuth()
@@ -78,6 +79,17 @@ export class AdminCompanyController extends BaseController {
       companyNo,
       pagination,
     );
+  }
+
+  /**
+   * find all promotions by company
+   * @param companyNo
+   */
+  @Get('/admin/company/:id([0-9]+)/promotions')
+  async findAllPromotionsByCompany(
+    @Param('id') companyNo: number,
+  ): Promise<Promotion[]> {
+    return await this.companyService.findAllPromotionsByCompany(companyNo);
   }
 
   /**

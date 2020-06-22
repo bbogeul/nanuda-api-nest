@@ -15,6 +15,7 @@ import { Menu } from '../menu/menu.entity';
 import { Exclude } from 'class-transformer';
 import { FoodCategory } from '../food-category/food-category.entity';
 import { SpaceType } from '../space-type/space-type.entity';
+import { Space } from '../space/space.entity';
 
 @Entity({ name: 'BRAND' })
 export class Brand extends BaseEntity<Brand> {
@@ -110,4 +111,19 @@ export class Brand extends BaseEntity<Brand> {
     },
   })
   spaceTypes?: SpaceType[];
+
+  @ManyToMany(
+    type => Space,
+    space => space.brands,
+  )
+  @JoinTable({
+    name: 'SPACE_NANUDA_BRAND',
+    joinColumn: {
+      name: 'BRAND_NO',
+    },
+    inverseJoinColumn: {
+      name: 'SPACE_ID',
+    },
+  })
+  spaces?: Space[];
 }

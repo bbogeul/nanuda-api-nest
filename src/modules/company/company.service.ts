@@ -13,6 +13,7 @@ import { Company } from './company.entity';
 import { Repository } from 'typeorm';
 import { CompanyDistrict } from '../company-district/company-district.entity';
 import { Space } from '../space/space.entity';
+import { Promotion } from '../promotion/promotion.entity';
 
 @Injectable()
 export class CompanyService extends BaseService {
@@ -21,6 +22,8 @@ export class CompanyService extends BaseService {
     private readonly companyRepo: Repository<Company>,
     @InjectRepository(CompanyDistrict)
     private readonly companyDistrictRepo: Repository<CompanyDistrict>,
+    @InjectRepository(Promotion)
+    private readonly promotionRepo: Repository<Promotion>,
   ) {
     super();
   }
@@ -136,6 +139,19 @@ export class CompanyService extends BaseService {
       .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
     return { items, totalCount };
+  }
+
+  /**
+   * find all promotions by company
+   * @param companyNo
+   */
+  async findAllPromotionsByCompany(companyNo: number): Promise<Promotion[]> {
+    const promotions = await this.promotionRepo.find({
+      where: {
+        companyNo: companyNo,
+      },
+    });
+    return promotions;
   }
 
   /**

@@ -4,12 +4,20 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { BaseEntity } from '../../core';
 import { YN } from 'src/common';
 import { SPACE } from 'src/shared';
 import { Company } from '../company/company.entity';
 import { CompanyDistrict } from '../company-district/company-district.entity';
+import { DeliverySpaceOption } from '../delivery-space-option/delivery-space-option.entity';
+import { NanudaUser } from '../nanuda-user';
+import { Admin } from '../admin';
+import { Brand } from '../brand/brand.entity';
+import { Amenity } from '../amenity/amenity.entity';
+import { Promotion } from '../promotion/promotion.entity';
 
 @Entity({ name: 'SPACE' })
 export class Space extends BaseEntity<Space> {
@@ -411,4 +419,75 @@ export class Space extends BaseEntity<Space> {
     },
   })
   companyDistricts?: CompanyDistrict[];
+
+  //   delivery space options
+  @ManyToMany(
+    type => DeliverySpaceOption,
+    deliverySpaceOption => deliverySpaceOption.spaces,
+  )
+  @JoinTable({
+    name: 'DELIVERY_SPACE_OPTION_SPACE_MAPPER',
+    joinColumn: {
+      name: 'SPACE_NO',
+    },
+    inverseJoinColumn: {
+      name: 'DELIVERY_SPACE_OPTION_NO',
+    },
+  })
+  deliverySpaceOptions?: DeliverySpaceOption[];
+
+  @ManyToOne(type => NanudaUser)
+  @JoinColumn({ name: 'NANUDA_USER_NO' })
+  nanudaUser?: NanudaUser;
+
+  @ManyToOne(type => Admin)
+  @JoinColumn({ name: 'MANAGER' })
+  admin?: Admin;
+
+  // amenity and space mapper
+  @ManyToMany(
+    type => Amenity,
+    amenity => amenity.spaces,
+  )
+  @JoinTable({
+    name: 'AMENITY_SPACE_MAPPER',
+    joinColumn: {
+      name: 'SPACE_NO',
+    },
+    inverseJoinColumn: {
+      name: 'AMENITY_NO',
+    },
+  })
+  amenities?: Amenity[];
+
+  @ManyToMany(
+    type => Promotion,
+    promotion => promotion.spaces,
+  )
+  @JoinTable({
+    name: 'PROMOTION_SPACE_MAPPER',
+    joinColumn: {
+      name: 'SPACE_NO',
+    },
+    inverseJoinColumn: {
+      name: 'PROMOTION_NO',
+    },
+  })
+  promotions?: Promotion[];
+
+  // space and brand mapper
+  @ManyToMany(
+    type => Brand,
+    brand => brand.spaces,
+  )
+  @JoinTable({
+    name: 'SPACE_NANUDA_BRAND',
+    joinColumn: {
+      name: 'SPACE_ID',
+    },
+    inverseJoinColumn: {
+      name: 'BRAND_NO',
+    },
+  })
+  brands?: Brand[];
 }

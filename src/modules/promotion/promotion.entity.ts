@@ -5,11 +5,14 @@ import {
   OneToMany,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { YN } from 'src/common';
 import { PromotionProperty } from '../promotion-property/promotion-property.entity';
 import { Company } from '../company/company.entity';
+import { Space } from '../space/space.entity';
 
 @Entity({ name: 'PROMOTION' })
 export class Promotion extends BaseEntity<Promotion> {
@@ -48,7 +51,7 @@ export class Promotion extends BaseEntity<Promotion> {
 
   // TODO: change to PROMOTION_TYPE
   @Column('int', {
-    nullable: false,
+    nullable: true,
     name: 'PROMOTION_TYPE_NO',
   })
   promotionTypeNo: number;
@@ -68,6 +71,14 @@ export class Promotion extends BaseEntity<Promotion> {
   })
   listShowYn: YN;
 
+  @Column('char', {
+    length: 1,
+    nullable: false,
+    default: YN.NO,
+    name: 'DEL_YN',
+  })
+  delYn?: YN;
+
   @ManyToOne(
     type => Company,
     company => company.promotions,
@@ -80,4 +91,19 @@ export class Promotion extends BaseEntity<Promotion> {
     promotionProperty => promotionProperty.promotion,
   )
   promotionProperties?: PromotionProperty[];
+
+  @ManyToMany(
+    type => Space,
+    space => space.promotions,
+  )
+  @JoinTable({
+    name: 'PROMOTION_SPACE_MAPPER',
+    joinColumn: {
+      name: 'PROMOTION_NO',
+    },
+    inverseJoinColumn: {
+      name: 'SPACE_NO',
+    },
+  })
+  spaces?: Space[];
 }

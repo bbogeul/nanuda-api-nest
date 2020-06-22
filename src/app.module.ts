@@ -24,6 +24,8 @@ import {
   SpaceTypeModule,
   CompanyModule,
   SpaceModule,
+  DeliverySpaceOptionModule,
+  AmenityModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 import { PaymentList } from './modules/dashboard/dashboard.entity';
@@ -57,10 +59,12 @@ const env = process.env;
     HttpModule.registerAsync({ useClass: HttpConfigService }),
     AuthModule,
     AdminModule,
+    AmenityModule,
     BrandModule,
     CodeManagementModule,
     CompanyModule,
     DashboardModule,
+    DeliverySpaceOptionModule,
     FoodCategoryModule,
     MenuModule,
     NanudaUserModule,
