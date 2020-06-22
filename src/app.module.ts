@@ -26,6 +26,7 @@ import {
   SpaceModule,
   DeliverySpaceOptionModule,
   AmenityModule,
+  PromotionModule,
 } from './modules';
 import { AdminModule } from './modules/admin/admin.module';
 import { PaymentList } from './modules/dashboard/dashboard.entity';
@@ -72,6 +73,7 @@ const env = process.env;
     PopupModule,
     ProductModule,
     ProductConsultModule,
+    PromotionModule,
     RevenueModule,
     SpaceModule,
     SpaceTypeModule,

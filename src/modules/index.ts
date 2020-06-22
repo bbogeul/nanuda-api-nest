@@ -12,6 +12,7 @@ export * from './dashboard/dashboard.module';
 export * from './food-category/food-category.module';
 export * from './product-consult/product-consult.module';
 export * from './product/product.module';
+export * from './promotion/promotion.module';
 export * from './revenue/revenue.module';
 export * from './space/space.module';
 export * from './space-type/space-type.module';
