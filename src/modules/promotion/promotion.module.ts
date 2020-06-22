@@ -5,6 +5,7 @@ import { PromotionProperty } from '../promotion-property/promotion-property.enti
 import { PromotionPropertyType } from '../promotion-property-type/promotion-property-type.entity';
 import { PromotionService } from './promotion.service';
 import { Company } from '../company/company.entity';
+import { AdminPromotionController } from './admin-promotion.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { Company } from '../company/company.entity';
       PromotionPropertyType,
     ]),
   ],
-  controllers: [],
+  controllers: [AdminPromotionController],
   providers: [PromotionService],
 })
 export class PromotionModule {}

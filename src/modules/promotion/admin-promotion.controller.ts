@@ -9,11 +9,11 @@ import { AdminPromotionCreateDto } from './dto';
 import { Promotion } from './promotion.entity';
 import { PromotionService } from './promotion.service';
 
-@ApiBearerAuth()
-@ApiTags('ADMIN PROMOTION')
 @Controller()
 @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
-export class AdminPromotion extends BaseController {
+@ApiBearerAuth()
+@ApiTags('ADMIN PROMOTION')
+export class AdminPromotionController extends BaseController {
   constructor(private readonly promotionService: PromotionService) {
     super();
   }
