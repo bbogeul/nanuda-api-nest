@@ -1,41 +1,36 @@
 import { BaseDto } from 'src/core';
-import { Menu } from '../menu.entity';
+import { HomepageMedia } from '../homepage-media.entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsEnum } from 'class-validator';
 import { Expose } from 'class-transformer';
-import { YN } from 'src/common';
+import { ORDER_BY_VALUE, Default, YN } from 'src/common';
 
-export class AdminMenuListDto extends BaseDto<AdminMenuListDto>
-  implements Partial<Menu> {
+export class AdminHomepageMediaListDto extends BaseDto<HomepageMedia>
+  implements Partial<HomepageMedia> {
   constructor(partial?: any) {
     super(partial);
   }
-  @ApiPropertyOptional()
-  @IsOptional()
-  @Expose()
-  nameKr?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
   @Expose()
-  nameEng?: string;
+  title?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Expose()
+  originalUrl?: string;
 
   @ApiPropertyOptional({ enum: YN })
   @IsOptional()
-  @Expose()
   @IsEnum(YN)
-  mainYn?: YN;
-
-  @ApiPropertyOptional({ enum: YN })
-  @IsOptional()
   @Expose()
-  @IsEnum(YN)
   showYn?: YN;
 
-  delYn: YN.NO;
-
-  @ApiPropertyOptional()
-  @IsOptional()
+  @ApiPropertyOptional({ enum: ORDER_BY_VALUE })
+  @IsEnum(ORDER_BY_VALUE)
   @Expose()
-  brandNo?: number;
+  @Default(ORDER_BY_VALUE.DESC)
+  @IsOptional()
+  orderByNo?: ORDER_BY_VALUE;
 }

@@ -1,18 +1,17 @@
 import { BaseDto } from 'src/core';
 import { Menu } from '../menu.entity';
-import { IsOptional, IsNotEmpty, IsEnum } from 'class-validator';
-import { Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsEnum } from 'class-validator';
+import { Expose } from 'class-transformer';
 import { YN, Default } from 'src/common';
 
-export class AdminMenuCreateDto extends BaseDto<AdminMenuCreateDto>
+export class AdminMenuUpdateDto extends BaseDto<AdminMenuUpdateDto>
   implements Partial<Menu> {
   constructor(partial?: any) {
     super(partial);
   }
-
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @Expose()
   nameKr: string;
 
@@ -21,8 +20,8 @@ export class AdminMenuCreateDto extends BaseDto<AdminMenuCreateDto>
   @Expose()
   nameEng?: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @IsOptional()
   @Expose()
   brandNo: number;
 
@@ -31,10 +30,11 @@ export class AdminMenuCreateDto extends BaseDto<AdminMenuCreateDto>
   @Expose()
   desc?: string;
 
-  @ApiProperty({ enum: YN })
+  @ApiPropertyOptional({ enum: YN })
   @Expose()
   @IsEnum(YN)
   @Default(YN.NO)
+  @IsOptional()
   mainYn: YN;
 
   @ApiPropertyOptional({ enum: YN })
