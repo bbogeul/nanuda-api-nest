@@ -5,6 +5,7 @@ import { YN } from '../../common';
 import { ADMIN_USER } from '../../shared';
 import { Exclude } from 'class-transformer';
 import { ProductConsult } from '../product-consult/product-consult.entity';
+import { Company } from '../company/company.entity';
 
 @Entity('ADMIN_USER')
 export class Admin extends BaseUser {

@@ -6,6 +6,7 @@ import {
   JoinTable,
   ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { BaseEntity } from '../../core';
 import { YN } from 'src/common';
@@ -18,6 +19,7 @@ import { Admin } from '../admin';
 import { Brand } from '../brand/brand.entity';
 import { Amenity } from '../amenity/amenity.entity';
 import { Promotion } from '../promotion/promotion.entity';
+import { SpaceType } from '../space-type/space-type.entity';
 
 @Entity({ name: 'SPACE' })
 export class Space extends BaseEntity<Space> {
@@ -54,14 +56,6 @@ export class Space extends BaseEntity<Space> {
     nullable: true,
   })
   kbScore?: string;
-
-  @Column('varchar', {
-    length: 1,
-    name: 'L_SUBPRIME_YN',
-    nullable: true,
-    default: YN.NO,
-  })
-  lSubPrimeYn?: YN;
 
   @Column('int', {
     name: 'SPACE_TYPE_NO',
@@ -128,6 +122,12 @@ export class Space extends BaseEntity<Space> {
     name: 'USER_SELECTED_TYPE',
   })
   userSelectedType?: string;
+
+  @Column('varchar', {
+    name: 'L_SUBPRIME_YN',
+    default: YN.NO,
+  })
+  lSubprimeYn?: YN;
 
   @Column('varchar', {
     nullable: true,
@@ -313,6 +313,11 @@ export class Space extends BaseEntity<Space> {
   size?: string;
 
   @Column('varchar', {
+    name: 'SEAT',
+  })
+  seat?: string;
+
+  @Column('varchar', {
     name: 'B_FIREBALL',
   })
   bFireball?: string;
@@ -370,6 +375,11 @@ export class Space extends BaseEntity<Space> {
   })
   rentalHopeFee?: string;
 
+  @Column('varchar', {
+    name: 'RENTAL_FEE',
+  })
+  rentalFee?: string;
+
   @Column('date', {
     name: 'RENTAL_START_DATE',
   })
@@ -403,7 +413,11 @@ export class Space extends BaseEntity<Space> {
   @Column('json', {
     name: 'VICINITY_INFO',
   })
-  vicinityInfo?: JSON;
+  vicinityInfo?: object;
+
+  @OneToOne(type => SpaceType)
+  @JoinColumn({ name: 'SPACE_TYPE_NO' })
+  spaceType?: SpaceType;
 
   @ManyToMany(
     type => CompanyDistrict,

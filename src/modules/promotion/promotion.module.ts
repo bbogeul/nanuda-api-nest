@@ -6,6 +6,7 @@ import { PromotionPropertyType } from '../promotion-property-type/promotion-prop
 import { PromotionService } from './promotion.service';
 import { Company } from '../company/company.entity';
 import { AdminPromotionController } from './admin-promotion.controller';
+import { PromotionSpaceMapper } from '../promotion-space-mapper/promotion-space-mapper.entity';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AdminPromotionController } from './admin-promotion.controller';
       Promotion,
       PromotionProperty,
       PromotionPropertyType,
+      PromotionSpaceMapper,
     ]),
   ],
   controllers: [AdminPromotionController],

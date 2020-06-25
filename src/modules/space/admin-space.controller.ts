@@ -1,10 +1,24 @@
-import { Controller, UseGuards, Query, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  UseGuards,
+  Query,
+  Get,
+  Param,
+  Body,
+  Post,
+  Patch,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthRolesGuard } from 'src/core/guards';
 import { CONST_ADMIN_USER } from 'src/shared';
 import { BaseController } from 'src/core';
 import { SpaceService } from './space.service';
-import { AdminSpaceListDto } from './dto';
+import {
+  AdminSpaceListDto,
+  AdminSpaceCreateDto,
+  AdminSpaceUpdateDto,
+} from './dto';
 import { PaginatedRequest, PaginatedResponse } from 'src/common';
 import { Space } from './space.entity';
 
@@ -37,5 +51,29 @@ export class AdminSpaceController extends BaseController {
   @Get('/admin/space/:id([0-9]+)')
   async findOne(@Param('id') spaceNo: number): Promise<Space> {
     return await this.spaceService.findOne(spaceNo);
+  }
+
+  /**
+   * create space for admin
+   * @param adminSpaceCreateDto
+   */
+  @Post('/admin/space')
+  async create(
+    @Body() adminSpaceCreateDto: AdminSpaceCreateDto,
+  ): Promise<Space> {
+    return await this.spaceService.create(adminSpaceCreateDto);
+  }
+
+  /**
+   * update space for admin
+   * @param spaceNo
+   * @param adminSpaceUpdateDto
+   */
+  @Patch('/admin/space/:id([0-9]+)')
+  async update(
+    @Param('id', ParseIntPipe) spaceNo: number,
+    @Body() adminSpaceUpdateDto: AdminSpaceUpdateDto,
+  ): Promise<Space> {
+    return await this.update(spaceNo, adminSpaceUpdateDto);
   }
 }

@@ -57,6 +57,21 @@ const env = process.env;
       //   Do not turn to true!!!! 나누다 키친 데이터 다 날라가요 ~ ㅠㅠ
       synchronize: false,
     }),
+    TypeOrmModule.forRoot({
+      name: 'analysis',
+      type: 'mysql' as 'mysql',
+      host: env.BIZ_DB_HOST,
+      port: Number(env.BIZ_DB_PORT),
+      username: env.BIZ_DB_USERNAME,
+      password: env.BIZ_DB_PASSWORD,
+      database: env.BIZ_DB_DATABASE,
+      // won't need to keep alive
+      //   keepConnectionAlive: true,
+      bigNumberStrings: false,
+      supportBigNumbers: false,
+      entities: [],
+      synchronize: false,
+    }),
     HttpModule.registerAsync({ useClass: HttpConfigService }),
     AuthModule,
     AdminModule,

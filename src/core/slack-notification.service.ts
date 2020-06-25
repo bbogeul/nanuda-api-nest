@@ -2,13 +2,16 @@ require('dotenv').config();
 import * as Slack from 'slack-node';
 import { Injectable } from '@nestjs/common';
 import { ConsultNotificationType, SlackUserName } from '../shared';
+import { BaseService } from './base.service';
 
 const env = process.env;
 const webhookUrl = env.SLACK_URL;
 const slack = new Slack();
 @Injectable()
-export class SendSlackNotificationSercvice {
-  constructor() {}
+export class SendSlackNotificationSercvice extends BaseService {
+  constructor() {
+    super();
+  }
 
   /**
    * new slack notification for visit consults

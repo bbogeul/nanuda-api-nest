@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { Space } from '../space/space.entity';
+import { YN } from 'src/common';
 
 @Entity({ name: 'DELIVERY_SPACE_OPTION' })
 export class DeliverySpaceOption extends BaseEntity<DeliverySpaceOption> {
@@ -37,6 +38,21 @@ export class DeliverySpaceOption extends BaseEntity<DeliverySpaceOption> {
     nullable: true,
   })
   deliverySpaceOptionName?: string;
+
+  @Column({
+    type: 'text',
+    name: 'DESC',
+    nullable: true,
+  })
+  desc?: string;
+
+  @Column({
+    type: 'char',
+    length: 1,
+    name: 'SHOW_YN',
+    default: YN.YES,
+  })
+  showYn?: YN;
 
   // Delivery space options.
   @ManyToMany(

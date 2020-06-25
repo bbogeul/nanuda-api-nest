@@ -4,11 +4,14 @@ import {
   Column,
   OneToMany,
   JoinColumn,
+  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
 import { COMPANY } from 'src/shared';
 import { CompanyDistrict } from '../company-district/company-district.entity';
 import { Promotion } from '../promotion/promotion.entity';
+import { Admin } from '../admin';
 
 @Entity({ name: 'COMPANY' })
 export class Company extends BaseEntity<Company> {
@@ -32,6 +35,12 @@ export class Company extends BaseEntity<Company> {
     name: 'ADMIN_NO',
   })
   adminNo: number;
+
+  @Column('int', {
+    nullable: true,
+    name: 'MANAGER_NO',
+  })
+  managerNo?: number;
 
   @Column('varchar', {
     nullable: false,
@@ -102,6 +111,10 @@ export class Company extends BaseEntity<Company> {
     name: 'WEBSITE',
   })
   website?: string;
+
+  @ManyToOne(type => Admin)
+  @JoinColumn({ name: 'MANAGER_NO' })
+  admin?: Admin;
 
   @OneToMany(
     type => CompanyDistrict,

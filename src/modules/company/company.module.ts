@@ -5,9 +5,12 @@ import { AdminCompanyController } from './admin-company.controller';
 import { CompanyService } from './company.service';
 import { CompanyDistrict } from '../company-district/company-district.entity';
 import { Promotion } from '../promotion/promotion.entity';
+import { Admin } from '../admin';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company, CompanyDistrict, Promotion])],
+  imports: [
+    TypeOrmModule.forFeature([Admin, Company, CompanyDistrict, Promotion]),
+  ],
   controllers: [AdminCompanyController],
   providers: [CompanyService],
 })

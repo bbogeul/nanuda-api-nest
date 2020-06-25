@@ -76,6 +76,7 @@ export class CompanyService extends BaseService {
     const qb = this.companyRepo
       .createQueryBuilder('company')
       .select()
+      .CustomLeftJoinAndSelect(['admin'])
       .WhereAndOrder(adminCompanyListDto)
       .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
@@ -89,7 +90,7 @@ export class CompanyService extends BaseService {
   async findOneForAdmin(companyNo: number, pagination?: PaginatedRequest) {
     const qb = this.companyRepo
       .createQueryBuilder('company')
-      .CustomLeftJoinAndSelect(['promotions'])
+      .CustomLeftJoinAndSelect(['admin', 'promotions'])
       .leftJoinAndSelect(
         'promotions.promotionProperties',
         'promotionProperties',

@@ -22,19 +22,25 @@ export class SpaceType extends BaseEntity<SpaceType> {
     nullable: false,
     name: 'CODE',
   })
-  code: number;
+  code: string;
 
   @Column('varchar', {
     nullable: false,
     name: 'NAME',
   })
-  name: number;
+  name: string;
 
   @Column('varchar', {
-    nullable: false,
+    nullable: true,
+    name: 'DISPLAY_NAME',
+  })
+  displayName?: string;
+
+  @Column('varchar', {
+    nullable: true,
     name: 'DESC',
   })
-  desc: string;
+  desc?: string;
 
   @Column('char', {
     length: 1,
