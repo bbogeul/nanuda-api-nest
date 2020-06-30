@@ -6,6 +6,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { BaseController } from 'src/core';
 import { ProductConsultService } from './product-consult.service';
@@ -14,8 +15,9 @@ import { AuthRolesGuard } from 'src/core/guards';
 import { NANUDA_USER } from 'src/shared';
 import { ProductConsultCreateDto } from './dto';
 import { ProductConsult } from './product-consult.entity';
-import { UserInfo } from 'src/common';
+import { UserInfo, PaginatedRequest, PaginatedResponse } from 'src/common';
 import { NanudaUser } from '../nanuda-user';
+import { ProductListDto } from '../product/dto';
 
 @Controller()
 @ApiBearerAuth()
@@ -55,6 +57,25 @@ export class ProductConsultController extends BaseController {
     return await this.productConsultRepo.homePageFindOne(
       nanudaUser.no,
       productConsultId,
+    );
+  }
+
+  /**
+   * find for user
+   * @param nanudaUser
+   * @param productListDto
+   * @param pagination
+   */
+  @Get('/product-consult')
+  async find(
+    @UserInfo() nanudaUser: NanudaUser,
+    @Query() productListDto: ProductListDto,
+    @Query() pagination?: PaginatedRequest,
+  ): Promise<PaginatedResponse<ProductConsult>> {
+    return await this.productConsultRepo.findForNanudaUser(
+      nanudaUser.no,
+      productListDto,
+      pagination,
     );
   }
 }

@@ -1,12 +1,17 @@
-import { Controller, Post, Body, UseGuards, Patch } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Patch, Req } from '@nestjs/common';
 import { BaseController } from '../../core';
-import { NanudaUserCreateDto, NanudaUserUpdateDto } from './dto';
+import {
+  NanudaUserCreateDto,
+  NanudaUserUpdateDto,
+  NanudaUserGetAuthDto,
+} from './dto';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { NanudaUserService } from './nanuda-user.service';
 import { NanudaUser } from './nanuda-user.entity';
 import { UserInfo } from 'src/common';
 import { AuthRolesGuard } from 'src/core/guards';
 import { NANUDA_USER } from 'src/shared';
+import { Request } from 'express';
 
 @Controller()
 @ApiTags('NANUDA USER')
@@ -42,5 +47,18 @@ export class NanudaUserController extends BaseController {
       nanudaUser.no,
       nanudaUserUpdateDto,
     );
+  }
+
+  /**
+   * get auth code for logging in
+   * @param req
+   * @param nanudaUserGetAuthDto
+   */
+  @Post('/get-auth-code')
+  async getAuth(
+    @Req() req: Request,
+    @Body() nanudaUserGetAuthDto: NanudaUserGetAuthDto,
+  ): Promise<any> {
+    return await this.nanudaUserService.getAuthCode(req, nanudaUserGetAuthDto);
   }
 }

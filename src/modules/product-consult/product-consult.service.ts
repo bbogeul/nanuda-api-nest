@@ -13,6 +13,7 @@ import { Repository } from 'typeorm';
 import { Admin } from '../admin';
 import { PRODUCT_CONSULT_NOTIFICATION } from 'src/shared';
 import { NanudaUser } from '../nanuda-user';
+import { ProductConsultListDto } from './dto/product-consult-list.dto';
 
 @Injectable()
 export class ProductConsultService extends BaseService {
@@ -89,6 +90,29 @@ export class ProductConsultService extends BaseService {
     productConsult = productConsult.set(adminProductConsultUpdateDto);
     productConsult = await this.productConsultRepo.save(productConsult);
     return productConsult;
+  }
+
+  /**
+   * find all for nanuda user
+   * @param nanudaUserNo
+   * @param productConsultListDto
+   * @param pagination
+   */
+  async findForNanudaUser(
+    nanudaUserNo: number,
+    productConsultListDto: ProductConsultListDto,
+    pagination?: PaginatedRequest,
+  ): Promise<PaginatedResponse<ProductConsult>> {
+    const qb = this.productConsultRepo
+      .createQueryBuilder('productConsult')
+      .where('productConsult.nanudaUserNo = :nanudaUserNo', {
+        nanudaUserNo: nanudaUserNo,
+      })
+      .WhereAndOrder(productConsultListDto)
+      .Paginate(pagination);
+    const [items, totalCount] = await qb.getManyAndCount();
+
+    return { items, totalCount };
   }
 
   /**

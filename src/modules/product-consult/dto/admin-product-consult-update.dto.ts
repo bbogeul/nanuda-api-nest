@@ -3,7 +3,7 @@ import { ProductConsult } from '../product-consult.entity';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional, IsEnum, IsDateString } from 'class-validator';
 import { Expose } from 'class-transformer';
-import { PRODUCT_CONSULT, AVAILABLE_TIME } from 'src/shared';
+import { PRODUCT_CONSULT, AVAILABLE_TIME, SPACE_TYPE } from 'src/shared';
 import { YN } from 'src/common';
 
 export class AdminProductConsultUpdateDto
@@ -60,5 +60,5 @@ export class AdminProductConsultUpdateDto
   @ApiPropertyOptional()
   @IsOptional()
   @Expose()
-  spaceTypeNo?: number;
+  spaceTypeNo?: SPACE_TYPE;
 }

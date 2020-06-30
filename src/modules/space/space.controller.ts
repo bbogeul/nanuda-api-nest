@@ -43,6 +43,10 @@ export class SpaceController extends BaseController {
     return await this.spaceService.findOneHomepage(spaceNo);
   }
 
+  /**
+   * create space for homepages
+   * @param spaceCreateDto
+   */
   @Post('/space')
   async create(@Body() spaceCreateDto: SpaceCreateDto): Promise<Space> {
     return await this.spaceService.createForHomepage(spaceCreateDto);

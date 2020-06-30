@@ -8,7 +8,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { BaseEntity } from 'src/core';
-import { PRODUCT_CONSULT } from 'src/shared';
+import { PRODUCT_CONSULT, SPACE_TYPE } from 'src/shared';
 import { YN } from 'src/common';
 import { NanudaUser } from '../nanuda-user';
 import { Admin } from '../admin';
@@ -86,7 +86,7 @@ export class ProductConsult extends BaseEntity<ProductConsult> {
     nullable: false,
     name: 'SPACE_TYPE_NO',
   })
-  spaceTypeNo: number;
+  spaceTypeNo: SPACE_TYPE;
 
   @ManyToOne(
     type => NanudaUser,

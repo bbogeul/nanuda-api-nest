@@ -25,8 +25,8 @@ import { ProductConsult } from './product-consult.entity';
 
 @Controller()
 @ApiTags('ADMIN PRODUCT CONSULT')
-// @ApiBearerAuth()
-// @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
+@ApiBearerAuth()
+@UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
 export class AdminProductConsultController extends BaseController {
   constructor(private readonly productConsultService: ProductConsultService) {
     super();

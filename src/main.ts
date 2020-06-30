@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+require('dotenv').config();
 import Debug from 'debug';
 import { basename } from 'path';
 import { NestFactory } from '@nestjs/core';
@@ -14,8 +15,6 @@ import * as requestIp from 'request-ip';
 import { AppModule } from './app.module';
 import { ClassTransformOptions } from '@nestjs/common/interfaces/external/class-transform-options.interface';
 import * as generate from './generator';
-
-require('dotenv').config();
 
 const debug = Debug(`app:${basename(__dirname)}:${basename(__filename)}`);
 const env = process.env.NODE_ENV;

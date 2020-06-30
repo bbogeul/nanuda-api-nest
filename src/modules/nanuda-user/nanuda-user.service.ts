@@ -8,9 +8,13 @@ import {
   NanudaUserUpdateDto,
   AdminNanudaUserListDto,
   AdminNanudaUserDeleteDto,
+  NanudaUserGetAuthDto,
 } from './dto';
 import { NanudaUserUpdateHistory } from '../nanuda-user-update-history/nanuda-user-update-history.entity';
 import { PaginatedRequest, PaginatedResponse } from 'src/common';
+import { SmsAuth } from '../sms-auth/sms-auth.entity';
+import { Request } from 'express';
+import { MessagingService } from 'src/shared/message-body.service';
 
 @Injectable()
 export class NanudaUserService extends BaseService {
@@ -18,6 +22,9 @@ export class NanudaUserService extends BaseService {
     @InjectEntityManager() private readonly entityManager: EntityManager,
     @InjectRepository(NanudaUser)
     private readonly nanudaUserRepo: Repository<NanudaUser>,
+    @InjectRepository(SmsAuth)
+    private readonly smsAuthRepo: Repository<SmsAuth>,
+    private readonly messagingService: MessagingService,
   ) {
     super();
   }
@@ -165,6 +172,31 @@ export class NanudaUserService extends BaseService {
       console.log(error);
     }
     return true;
+  }
+
+  /**
+   * get auth code for logging in
+   * @param req
+   * @param nanudaUserGetAuthDto
+   */
+  async getAuthCode(
+    req: Request,
+    nanudaUserGetAuthDto: NanudaUserGetAuthDto,
+  ): Promise<object> {
+    await this.messagingService.sendLoginPrompt(
+      req,
+      nanudaUserGetAuthDto.phone,
+      await this.__create_random_auth_code(),
+    );
+    return { isSent: true };
+  }
+
+  /**
+   * create random code
+   */
+  private async __create_random_auth_code(): Promise<number> {
+    const code = Math.floor(100000 + Math.random() * 900000);
+    return code;
   }
 
   /**

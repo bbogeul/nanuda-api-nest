@@ -2,7 +2,7 @@ import { BaseDto } from 'src/core';
 import { ProductConsult } from '../product-consult.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { AVAILABLE_TIME } from 'src/shared';
+import { AVAILABLE_TIME, SPACE_TYPE } from 'src/shared';
 import { IsEnum } from 'class-validator';
 import { YN, Default } from 'src/common';
 
@@ -29,5 +29,5 @@ export class ProductConsultCreateDto extends BaseDto<ProductConsultCreateDto>
 
   @ApiProperty()
   @Expose()
-  spaceTypeNo: number;
+  spaceTypeNo: SPACE_TYPE;
 }
