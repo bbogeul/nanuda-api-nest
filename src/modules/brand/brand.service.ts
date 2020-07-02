@@ -47,7 +47,7 @@ export class BrandService extends BaseService {
     const brand = await this.entityManager.transaction(async entityManager => {
       // add admin id for adminNo
       adminBrandCreateDto.adminNo = adminId;
-      let newBrand = new Brand(adminBrandCreateDto);
+      let brand = new Brand(adminBrandCreateDto);
       if (adminBrandCreateDto.categoryNo) {
         const category = await this.foodCategoryRepo.findOne({
           where: {
@@ -60,21 +60,23 @@ export class BrandService extends BaseService {
           throw new NotFoundException({ message: 'NO CATEGORY FOUND' });
         }
       }
-      newBrand = await entityManager.save(newBrand);
+      brand = await entityManager.save(brand);
       // create space type brand mapper
       if (
         adminBrandCreateDto.spaceTypeIds &&
         adminBrandCreateDto.spaceTypeIds.length > 0
       ) {
-        adminBrandCreateDto.spaceTypeIds.map(async spaceTypeId => {
-          const spaceTypeBrandMapper = new SpaceTypeBrandMapper();
-          spaceTypeBrandMapper.brandNo = newBrand.no;
-          spaceTypeBrandMapper.spaceTypeNo = parseInt(spaceTypeId, 10);
-          spaceTypeBrandMapper.brandName = newBrand.nameKr;
-          await entityManager.save(spaceTypeBrandMapper);
-        });
+        await Promise.all(
+          adminBrandCreateDto.spaceTypeIds.map(async spaceTypeId => {
+            const spaceTypeBrandMapper = new SpaceTypeBrandMapper();
+            spaceTypeBrandMapper.brandNo = brand.no;
+            spaceTypeBrandMapper.spaceTypeNo = parseInt(spaceTypeId, 10);
+            spaceTypeBrandMapper.brandName = brand.nameKr;
+            await entityManager.save(spaceTypeBrandMapper);
+          }),
+        );
       }
-      return newBrand;
+      return brand;
     });
     return brand;
   }

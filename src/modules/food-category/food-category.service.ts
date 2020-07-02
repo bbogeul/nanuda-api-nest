@@ -31,17 +31,30 @@ export class FoodCategoryService extends BaseService {
    * @param adminFoodCategoryListDto
    * @param pagination
    */
+  // async findAll(
+  //   adminFoodCategoryListDto: AdminFoodCategoryListDto,
+  //   pagination?: PaginatedRequest,
+  // ): Promise<PaginatedResponse<FoodCategory>> {
+  //   const qb = this.foodCategoryRepo
+  //     .createQueryBuilder('FoodCategory')
+  //     .CustomLeftJoinAndSelect(['brands'])
+  //     .WhereAndOrder(adminFoodCategoryListDto)
+  //     .Paginate(pagination);
+  //   const [items, totalCount] = await qb.getManyAndCount();
+
+  //   return { items, totalCount };
+  // }
+
   async findAll(
     adminFoodCategoryListDto: AdminFoodCategoryListDto,
     pagination?: PaginatedRequest,
   ): Promise<PaginatedResponse<FoodCategory>> {
     const qb = this.foodCategoryRepo
-      .createQueryBuilder('FoodCategory')
+      .createQueryBuilder('foodCategory')
       .CustomLeftJoinAndSelect(['brands'])
       .WhereAndOrder(adminFoodCategoryListDto)
       .Paginate(pagination);
     const [items, totalCount] = await qb.getManyAndCount();
-
     return { items, totalCount };
   }
 

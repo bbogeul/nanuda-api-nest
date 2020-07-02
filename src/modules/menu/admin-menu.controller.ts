@@ -18,6 +18,7 @@ import { CONST_ADMIN_USER } from 'src/shared';
 @Controller()
 @ApiBearerAuth()
 @ApiTags('ADMIN MENU')
+@UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
 export class AdminMenuController extends BaseController {
   constructor(private readonly menuService: MenuService) {
     super();
@@ -28,7 +29,6 @@ export class AdminMenuController extends BaseController {
    * @param adminMenuListDto
    * @param pagination
    */
-  @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
   @Get('/admin/menu')
   async findAll(
     @Query() adminMenuListDto: AdminMenuListDto,
@@ -42,7 +42,6 @@ export class AdminMenuController extends BaseController {
    * includes all no show menus
    * @param mapId
    */
-  @UseGuards(new AuthRolesGuard(...CONST_ADMIN_USER))
   @Get('/admin/menu/:id([0-9]+)')
   async findOne(@Param('id', ParseIntPipe) mapId: number): Promise<Menu> {
     return await this.menuService.findOne(mapId);

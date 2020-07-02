@@ -54,7 +54,7 @@ export class Promotion extends BaseEntity<Promotion> {
     nullable: true,
     name: 'PROMOTION_TYPE_NO',
   })
-  promotionTypeNo: number;
+  promotionTypeNo?: number;
 
   @Column('char', {
     name: 'DETAIL_SHOW_YN',

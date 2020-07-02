@@ -62,8 +62,8 @@ export class CodeManagementService extends BaseService {
    * code management detail
    * @param codeNO
    */
-  async findOne(codeNO: number): Promise<CodeManagement> {
-    return await this.codeManagementRepo.findOne(codeNO);
+  async findOne(codeNo: number): Promise<CodeManagement> {
+    return await this.codeManagementRepo.findOne(codeNo);
   }
 
   /**
@@ -72,10 +72,10 @@ export class CodeManagementService extends BaseService {
    * @param adminCodeManagementUpdateDto
    */
   async update(
-    codeNO: number,
+    codeNo: number,
     adminCodeManagementUpdateDto: AdminCodeManagementUpdateDto,
   ): Promise<CodeManagement> {
-    let code = await this.codeManagementRepo.findOne(codeNO);
+    let code = await this.codeManagementRepo.findOne(codeNo);
     code = code.set(adminCodeManagementUpdateDto);
     code = await this.codeManagementRepo.save(code);
     return code;
@@ -86,14 +86,14 @@ export class CodeManagementService extends BaseService {
    * @param codeNO
    * @param admin
    */
-  async hardDelete(admin: Admin, codeNO: number): Promise<boolean> {
-    const findCode = await this.codeManagementRepo.findOne(codeNO);
+  async hardDelete(admin: Admin, codeNo: number): Promise<boolean> {
+    const findCode = await this.codeManagementRepo.findOne(codeNo);
     if (!findCode) throw new NanudaException('codeManagement.duplicate');
-    const privilegedAdmin = ['Joseph', 'Eddie'];
-    if (!privilegedAdmin.includes(admin.name)) {
-      throw new ForbiddenException();
-    }
-    await this.codeManagementRepo.delete(codeNO);
+    // const privilegedAdmin = ['Joseph', 'Eddie'];
+    // if (!privilegedAdmin.includes(admin.name)) {
+    //   throw new ForbiddenException();
+    // }
+    await this.codeManagementRepo.delete(codeNo);
     return true;
   }
 }
